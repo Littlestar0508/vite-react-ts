@@ -1,22 +1,28 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
+import { defineConfig } from 'vite';
+import { fileURLToPath } from 'node:url';
+import react from '@vitejs/plugin-react';
 
 const viteConfig = defineConfig({
   plugins: [
     react({
-      jsxRuntime: "automatic",
+      jsxRuntime: 'automatic',
     }),
   ],
   server: {
-    host: "localhost",
+    host: 'localhost',
     port: 3000,
   },
   preview: {
-    host: "localhost",
+    host: 'localhost',
     port: 8080,
   },
   css: {
     devSourcemap: true,
+  },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
   },
 });
 
