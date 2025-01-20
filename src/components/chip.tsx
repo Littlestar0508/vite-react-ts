@@ -3,19 +3,36 @@ import './chip.css';
 
 interface ChipProps {
   item: ChipType;
+  pressed?: boolean;
+  index: number;
+  onToggle?: (willChangePressedIndex: number) => void;
 }
 
-function Chip({ item }: ChipProps) {
+function Chip({ item, pressed = false, onToggle, index }: ChipProps) {
   const handleToggle = () => {
-    console.log('ToggleChip');
+    if (index > -1) {
+      onToggle?.(index);
+    }
+  };
+  const handleKey = (e: React.KeyboardEvent<HTMLSpanElement>) => {
+    const keyboardKey: string = e.code;
+
+    switch (keyboardKey) {
+      case 'Space':
+      case 'Enter':
+        handleToggle();
+        break;
+    }
   };
 
   return (
     <span
       role="button"
-      aria-pressed={true}
+      aria-pressed={pressed}
+      aria-disabled={pressed}
       tabIndex={0}
       onClick={handleToggle}
+      onKeyDown={handleKey}
       className="Chip"
     >
       {item.label}
