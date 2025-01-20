@@ -1,5 +1,6 @@
 @layer components {
   .ChipList {
+    overflow: auto;
     list-style-type: '';
     display: flex;
     flex-flow: row nowrap;
@@ -7,6 +8,10 @@
     padding: 8px 12px;
     gap: 4px;
     margin-block: 0;
+
+    &::-webkit-scrollbar {
+      height: 4px;
+    }
 
     li {
       flex-shrink: 0;

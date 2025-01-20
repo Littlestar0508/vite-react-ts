@@ -35,9 +35,19 @@ function Playground() {
   ]);
 
   return (
-    <div className="Playground">
+    <div className="Playground" style={{ marginInline: 40 }}>
       <h1>PlayGround</h1>
-      <ChipList items={chipData}></ChipList>
+      <div
+        style={{
+          inlineSize: 320,
+          blockSize: 640,
+          border: '4px solid rgba(0 0 0 / 10%)',
+          borderRadius: 12,
+          padding: 8,
+        }}
+      >
+        <ChipList items={chipData}></ChipList>
+      </div>
     </div>
   );
 }
