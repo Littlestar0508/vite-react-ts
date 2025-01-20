@@ -1,7 +1,11 @@
-import Prose from '@/components/prose';
+import Playground from './playground';
 
 function App() {
-  return <Prose />;
+  return (
+    <>
+      <Playground></Playground>
+    </>
+  );
 }
 
 export default App;

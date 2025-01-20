@@ -43,6 +43,7 @@ export default tseslint.config(
       'react-refresh': reactRefresh,
     },
     rules: {
+      'jsx-a11y/click-events-have-key-events': 'off',
       ...react.configs.flat.recommended.rules,
       ...react.configs['jsx-runtime'].rules,
       ...reactHooks.configs.recommended.rules,

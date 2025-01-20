@@ -1,0 +1,12 @@
+.chip-btn {
+  background-color: transparent;
+  border: none;
+  padding: 1rem;
+  border-radius: 25px;
+
+}
+
+.activate {
+  background-color: dodgerblue;
+  color: white;
+}
