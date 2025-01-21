@@ -51,4 +51,10 @@ createUser({
   password: 'rmfjgrpgkwlak',
 });
 
-export async function isRegisteredUser() {}
+export async function isRegisteredUser(email, password) {
+  const user = await findUserByEmail(email);
+
+  if (!user) return false;
+
+  return await bcrypt.compare(password, user.password);
+}

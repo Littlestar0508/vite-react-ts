@@ -37,36 +37,66 @@
 
     <!-- HTML Form (web standards) -->
     <section style="margin-inline: 48px">
-      <h2>
-        회원가입 폼
-      </h2>
-      <!-- POST method 통신 -->
+      <h2>로그인 폼 (POST 메서드)</h2>
       <form
-        action="http://localhost:4000/api/signup"
+        action="http://localhost:4000/api/signin"
         method="POST"
       >
         <div style="margin-block-end: 8px">
-          <label for="usernameSignUp">이름</label>
-          <input
-            type="text"
-            name="username"
-            id="usernameSignUp"
-          />
-        </div>
-        <div style="margin-block-end: 8px">
-          <label for="userEmailSignUp">이메일</label>
+          <label for="userEmailSignIn">이메일</label>
           <input
             type="email"
             name="useremail"
-            id="userEmailSignUp"
+            id="userEmailSignIn"
           />
         </div>
         <div style="margin-block-end: 8px">
-          <label for="userPasswordSignUp">비밀번호</label>
+          <label for="userPasswordSignIn">패스워드</label>
           <input
             type="password"
             name="userpassword"
-            id="userPasswordSignUp"
+            id="userPasswordSignIn"
+          />
+        </div>
+        <button type="submit">로그인</button>
+        <button type="reset">초기화</button>
+      </form>
+    </section>
+
+    <hr style="margin-block-start:32px" />
+
+    <!-- HTML Form (web standards) -->
+    <section style="margin-inline: 48px">
+      <h2>
+        회원가입 폼(POST 방식)
+      </h2>
+      <!-- POST method 통신 -->
+      <form
+        action="http://localhost:4000/api/signin"
+        method="POST"
+      >
+        <div style="margin-block-end: 8px">
+          <label for="usernameSignOut">이름</label>
+          <input
+            type="text"
+            name="username"
+            id="usernameSignOut"
+          />
+        </div>
+        <div style="margin-block-end: 8px">
+          <label for="userEmailSignOut">이메일</label>
+          <input
+            type="email"
+            name="useremail"
+            id="userEmailSignOut"
+          />
+        </div>
+        <div style="margin-block-end: 8px">
+          <label for="userPasswordSignOut">비밀번호</label>
+          <input
+            type="password"
+            name="userpassword"
+            id="userPasswordSignOut"
           />
         </div>
         <button type="submit">회원가입</button>

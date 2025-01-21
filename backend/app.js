@@ -6,6 +6,20 @@ const app = express();
 // url parser
 app.use(express.urlencoded({ extended: false }));
 
+app.post('/api/signin', async (req, res) => {
+  const { useremail, userpassword } = req.body;
+
+  if (!useremail || !userpassword) {
+    return res
+      .status(400)
+      .send('로그인을 시도하려면 이메일과 비밀번호 둘 다 입력해주세요');
+  }
+
+  const result = isRegisteredUser(useremail, userpassword); // True of False
+
+  res.status(200).send('로그인 성공');
+});
+
 app.post('/api/signup', async (req, res) => {
   // request.body를 통해 client 요청된 데이터를 받는다
   const { username, useremail, userpassword } = req.body;
