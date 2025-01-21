@@ -18,7 +18,6 @@ app.post('/api/signup', async (req, res) => {
 
   // 새 사용자 생성 (백엔드 스토리지)
   try {
-    console.log(1);
     const newUser = await createUser({
       name: username,
       email: useremail,
@@ -27,9 +26,11 @@ app.post('/api/signup', async (req, res) => {
     console.log(newUser);
 
     if (newUser) {
-      res.status(200).send(`<p>회원 가입에 성공했습니다.</p>`);
+      res
+        .status(200)
+        .send(`<p>${newUser.name}님 회원 가입에 성공했습니다.</p>`);
     } else {
-      res.status(400).send(`<p>이미 가입된 이메일입니다</p>`);
+      res.status(400).send(`<p>${useremail}은 이미 가입된 이메일입니다</p>`);
     }
   } catch (err) {
     res.status(400).send('새 사용자 생성에 문제가 발생했습니다.');

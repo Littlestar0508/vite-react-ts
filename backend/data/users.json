@@ -1,1 +1,26 @@
-[]
+[
+  {
+    "name": "한제이",
+    "email": "hanj2@kakao.com",
+    "password": "$2b$10$K7PvRTiwF3xH5h9R.2IZoOrM54q5fkxlHJiQuTSvRz5vm7O99lxrO",
+    "id": "591c1b02-c690-4348-8dcc-a0c1fb693edf"
+  },
+  {
+    "name": "지훈",
+    "email": "yamoo9@naver.com",
+    "password": "$2b$10$6dHtQ34rZC5yWbm9YQOiU.hI9Ek0MrUzlrt0cD9XlSVVHHvUvQbLi",
+    "id": "17c7075e-0cb6-42e8-9d02-156aab3a4935"
+  },
+  {
+    "id": "e5b8d3a8-8db5-458a-957e-42a8df569815",
+    "name": "까까룽",
+    "email": "abcd@456.com",
+    "password": "$2b$09$FY8bYllY9IR8scsLrW8ku.5vOwPy8j6OuhUFjyMNKtyzc.PZHU7kW"
+  },
+  {
+    "id": "66fa10b1-cf44-48e0-be06-fed9fcf1be95",
+    "name": "littlestar58",
+    "email": "littlestar@littlestar.io",
+    "password": "$2b$09$N7RV2v80a/ftwDWcI25dzu.ICJvjl1oC0h.mNFzt.sqsJhAknq5om"
+  }
+]
