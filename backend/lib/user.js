@@ -13,20 +13,19 @@ export async function getUsers() {
 
 export async function findUserByEmail(email) {
   const users = await getUsers();
-
   return users.find((user) => user.email === email);
 }
 
 export async function createUser(newUser) {
-  // 가입한 사용자인지 확인
+  // 이미 가입한 사용자인가요?
   const user = await findUserByEmail(newUser.email);
-
-  // 이미 가입된 사용자라면 null 반환
+  // 이미 가입한 사용자라면 null 반환하고, 함수 종료합시다.
   // 서버에서 클라이언트에 이미 회원가입한 사용자 임을 응답합니다.
   if (user) return null;
 
-  // 새 가입자라면 사용자 정보를 data/users.json에 저장
-  // **요청받은 사용자의 민감한 정보인 password는 암호화
+  // 새 가입자라면 사용자 정보를 data/users.json에 저장합니다.
+  // [중요] 요청받은 사용자의 민감한 정보인 패스워드는 암호화합니다.
+
   const users = await getUsers();
   const hashedPassword = await bcrypt.hash(newUser.password, saltRounds);
 
@@ -34,27 +33,19 @@ export async function createUser(newUser) {
     id: crypto.randomUUID(),
     name: newUser.name,
     email: newUser.email,
-    // 암호화된 패스워드 'bcrypt.hash(password, saltRounds)'
+    profileImage: newUser.profileImage,
     password: hashedPassword,
   };
 
   users.push(createdUser);
 
-  writeFile(FILE_PATH, JSON.stringify(users, null, 2), OPTIONS);
+  await writeFile(FILE_PATH, JSON.stringify(users, null, 2), OPTIONS);
 
   return createdUser;
 }
 
-createUser({
-  name: '까까룽',
-  email: 'abcd@456.com',
-  password: 'rmfjgrpgkwlak',
-});
-
 export async function isRegisteredUser(email, password) {
   const user = await findUserByEmail(email);
-
-  if (!user) return false;
-
+  if (!user) return null;
   return await bcrypt.compare(password, user.password);
 }
