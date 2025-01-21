@@ -1,5 +1,5 @@
 import express from 'express';
-import { createUser } from './lib/user.js';
+import { createUser, isRegisteredUser } from './lib/user.js';
 
 // Express {}
 const app = express();
@@ -15,7 +15,22 @@ app.post('/api/signin', async (req, res) => {
       .send('로그인을 시도하려면 이메일과 비밀번호 둘 다 입력해주세요');
   }
 
-  const result = isRegisteredUser(useremail, userpassword); // True of False
+  const result = await isRegisteredUser(useremail, userpassword); // True of False
+
+  if (result === null) {
+    return res.status(400).send(`
+        <p>${useremail} 계정으로 회원가입된 적이 없습니다</p>
+      `);
+  }
+
+  if (result) {
+    // true인 경우 패스워드도 일치하여 인증 성공
+    return res.status(200).send(`<p>환영합니다 ${useremail}님</p>`);
+  } else {
+    return res.status(400).send(`
+        <p>${useremail} 계정 패스워드가 잘못되었습니다</p>
+      `);
+  }
 
   res.status(200).send('로그인 성공');
 });
