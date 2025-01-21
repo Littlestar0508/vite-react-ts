@@ -1,4 +1,4 @@
-import ChipList from './components/chip-list';
+import ChipList from '../components/chip-list';
 import { useState } from 'react';
 import type { ChipList as ChipListType } from '@/types/chip';
 
