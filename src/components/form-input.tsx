@@ -8,13 +8,19 @@ interface FormInputProps extends ComponentProps<'input'> {
 //   label: string;
 // };
 
-function FormInput({ label, ...restProps }: FormInputProps) {
+function FormInput({ label, type, ...restProps }: FormInputProps) {
   const inputId = useId();
+
+  let radioOrCheckboxLabel = null;
+  if (type === 'radio' || type === 'checkbox') {
+    radioOrCheckboxLabel = <label htmlFor={inputId}>{label}</label>;
+  }
 
   return (
     <div className="formControl">
-      <label htmlFor={inputId}>{label}</label>
+      {!radioOrCheckboxLabel && <label htmlFor={inputId}>{label}</label>}
       <input id={inputId} {...restProps} />
+      {radioOrCheckboxLabel}
     </div>
   );
 }

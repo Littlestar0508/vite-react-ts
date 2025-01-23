@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import FormInput from '@/components/form-input';
+import FormRadio from '@/components/form-radio';
 
 const formStyles = {
   display: 'flex',
@@ -69,13 +70,24 @@ function ReactForm() {
             step={10}
             onChange={(e) => {
               const { value } = e.target;
-              setLimitAge(+value);
+              setLimitAge(parseInt(value, 10));
             }}
             title={`현재 값 : ${limitAge}세`}
           />
           <output>{limitAge}</output>
         </div>
 
+        {/* type=file */}
+        <FormInput label="프로필" type="file" accept="image/*"></FormInput>
+        {/* type=checkbox */}
+        <FormInput label="성별" name="userGender" type="radio"></FormInput>
+        {/* type=radio */}
+        <fieldset>
+          <legend>성별</legend>
+          <FormRadio label="남성" name="userGender" defaultChecked />
+          <FormRadio label="여성" name="userGender" />
+        </fieldset>
+        {/* type=datetime-local */}
         <button type="submit">제출</button>
       </form>
     </div>
