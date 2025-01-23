@@ -1,5 +1,6 @@
 import { useId, type ComponentProps } from 'react';
 import FormRadioOrCheckbox from './form-radio-or-checkbox';
+import './form-input.css';
 
 type FormInputProps = ComponentProps<'input'> & {
   label: string;

@@ -49,10 +49,48 @@ function ReactForm() {
     setContents(e.target.value);
   };
 
+  // radio input state
+  const [isMale, setIsMale] = useState<boolean>(true);
+  const handleToggleGender = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const male = e.target.value === 'male';
+    setIsMale(male);
+  };
+
+  // checkbox input state (checked -> not value)
+
   return (
     <div className="ReactForm">
       <h2>React 폼(form)</h2>
       <form style={formStyles}>
+        {/* type=radio */}
+        <fieldset>
+          <legend>성별</legend>
+          <div
+            style={{
+              display: 'flex',
+              gap: 12,
+              justifyContent: 'space-between',
+            }}
+          >
+            <FormInput
+              type="radio"
+              label="남성"
+              name="usergender"
+              value="male"
+              checked={isMale}
+              onChange={handleToggleGender}
+            />
+            <FormInput
+              type="radio"
+              label="여성"
+              name="usergender"
+              value="female"
+              checked={!isMale}
+              onChange={handleToggleGender}
+            />
+          </div>
+        </fieldset>
+
         {/* type=text */}
         <FormInput label="이름" placeholder="박수무당" />
 
@@ -107,24 +145,6 @@ function ReactForm() {
           />
           <output>{limitAge}</output>
         </div>
-
-        {/* type=radio */}
-        <fieldset>
-          <legend>성별</legend>
-          <FormInput
-            type="radio"
-            label="남성"
-            name="usergender"
-            value="male"
-            defaultChecked
-          />
-          <FormInput
-            type="radio"
-            label="여성"
-            name="usergender"
-            value="female"
-          />
-        </fieldset>
 
         {/* type=checkbox */}
         <fieldset>
