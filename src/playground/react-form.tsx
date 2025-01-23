@@ -57,6 +57,66 @@ function ReactForm() {
   };
 
   // checkbox input state (checked -> not value)
+  // 객체
+  // const [isChecked, setIsChecked] = useState({});
+  // const handleToggleHobby = (e: React.ChangeEvent<HTMLInputElement>) => {
+  //   const newState = { ...isChecked, [e.target.value]: [e.target.checked] };
+  //   setIsChecked(newState);
+  // };
+
+  // 배열
+  // Checkbox{name , label , value , checked}
+  // Checkbox[]
+  const [hobbyList, setHobbyList] = useState([
+    {
+      name: 'userhobby',
+      label: '공부',
+      value: 'study',
+      checked: true,
+    },
+    {
+      name: 'userhobby',
+      label: '운동',
+      value: 'health',
+      checked: false,
+    },
+    {
+      name: 'userhobby',
+      label: '영화 감상',
+      value: 'watch-a-movie',
+      checked: false,
+    },
+    {
+      name: 'userhobby',
+      label: '바디 프로필 촬영',
+      value: 'photo-body-profile',
+      checked: true,
+    },
+  ]);
+
+  // derived state
+  // - 모두 체크 되었나?
+  const isAllCheckedHobbyList = hobbyList.every((hobby) => hobby.checked);
+  console.log(isAllCheckedHobbyList);
+  // - 모두 체크 되지 않았나?
+  const isNotAllCheckedHobbyList = hobbyList.every((hobby) => !hobby.checked);
+  console.log(isNotAllCheckedHobbyList);
+
+  const handleCheckedHobbies = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked: nextCheckedValue, value } = e.target;
+
+    const nextHobbyList = hobbyList.map((hobby) => {
+      if (hobby.value === value) {
+        return {
+          ...hobby,
+          checked: nextCheckedValue,
+        };
+      }
+      return hobby;
+    });
+
+    setHobbyList(nextHobbyList);
+  };
 
   return (
     <div className="ReactForm">
@@ -89,6 +149,22 @@ function ReactForm() {
               onChange={handleToggleGender}
             />
           </div>
+        </fieldset>
+
+        {/* type=checkbox */}
+        <fieldset>
+          <legend>취미</legend>
+          {hobbyList.map((hobby) => (
+            <FormInput
+              type="checkbox"
+              key={hobby.label}
+              label={hobby.label}
+              name="userhobby"
+              value={hobby.value}
+              checked={hobby.checked}
+              onChange={handleCheckedHobbies}
+            />
+          ))}
         </fieldset>
 
         {/* type=text */}
@@ -145,30 +221,6 @@ function ReactForm() {
           />
           <output>{limitAge}</output>
         </div>
-
-        {/* type=checkbox */}
-        <fieldset>
-          <legend>취미</legend>
-          <FormInput
-            type="checkbox"
-            label="공부"
-            name="userhobby"
-            value="study"
-            defaultChecked
-          />
-          <FormInput
-            type="checkbox"
-            label="운동"
-            name="userhobby"
-            value="helth"
-          />
-          <FormInput
-            type="checkbox"
-            label="영화 감상"
-            name="userhobby"
-            value="watch-a-movie"
-          />
-        </fieldset>
 
         {/* type=date */}
         <FormInput type="date" label="여행 날짜" />
