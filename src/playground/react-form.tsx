@@ -1,47 +1,53 @@
 import { useState } from 'react';
 import FormInput from '@/components/form-input';
-import FormRadio from '@/components/form-radio';
 
 const formStyles = {
   display: 'flex',
   flexFlow: 'column',
+  alignItems: 'start',
   gap: 20,
-  alignItems: 'center',
 };
 
 function ReactForm() {
-  const [age, setAge] = useState(22);
-  const [color, setColor] = useState('#AEBEEF');
-  const [limitAge, setLimitAge] = useState(40);
+  const [age, setAge] = useState<number>(22);
+  const [color, setColor] = useState<string>('#2483DB');
+  const [limitAge, setLimitAge] = useState<number>(40);
 
   return (
     <div className="ReactForm">
       <h2>React 폼(form)</h2>
       <form style={formStyles}>
         {/* type=text */}
-        <FormInput type="text" label="이름" placeholder="박수무당" />
+        <FormInput
+          // type="text"
+          label="이름"
+          placeholder="박수무당"
+        />
+
+        {/* type=password */}
         <FormInput
           type="password"
           label="비밀번호"
           placeholder="영어, 숫자 조합 4자리 이상"
         />
-        {/* type=number */}
+
+        {/* type=email */}
+        <FormInput type="email" label="이메일" placeholder="user@company.io" />
+
+        {/* type=number, controlled component */}
         <FormInput
           type="number"
           label="나이"
           value={age}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             const { value } = e.target;
+            // const nextAgeValue: number = +value;
+            // const nextAgeValue: number = Number(value);
             const nextAgeValue: number = parseInt(value, 10);
             setAge(nextAgeValue);
           }}
-          readOnly={false}
-          data-name="폼 인풋"
-          data-type="input"
-          title="컴포넌트 만세!"
         />
-        {/* type=email */}
-        <FormInput type="email" label="이메일" placeholder="user@company.io" />
+
         {/* type=color */}
         <FormInput
           type="color"
@@ -52,43 +58,78 @@ function ReactForm() {
             setColor(value);
           }}
         />
-        {/* type=label */}
-        <div
-          style={{
-            display: 'flex',
-            gap: 8,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
+
+        {/* type=range */}
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
           <FormInput
             type="range"
             label="시청 허용 나이"
             min={10}
             max={90}
-            value={limitAge}
             step={10}
+            value={limitAge}
             onChange={(e) => {
               const { value } = e.target;
               setLimitAge(parseInt(value, 10));
             }}
-            title={`현재 값 : ${limitAge}세`}
           />
           <output>{limitAge}</output>
         </div>
 
         {/* type=file */}
-        <FormInput label="프로필" type="file" accept="image/*"></FormInput>
-        {/* type=checkbox */}
-        <FormInput label="성별" name="userGender" type="radio"></FormInput>
+        <FormInput label="프로필" type="file" accept="image/*" multiple />
+
         {/* type=radio */}
         <fieldset>
           <legend>성별</legend>
-          <FormRadio label="남성" name="userGender" defaultChecked />
-          <FormRadio label="여성" name="userGender" />
+          <FormInput
+            type="radio"
+            label="남성"
+            name="usergender"
+            value="male"
+            defaultChecked
+          />
+          <FormInput
+            type="radio"
+            label="여성"
+            name="usergender"
+            value="female"
+          />
         </fieldset>
+
+        {/* type=checkbox */}
+        <fieldset>
+          <legend>취미</legend>
+          <FormInput
+            type="checkbox"
+            label="공부"
+            name="userhobby"
+            value="study"
+            defaultChecked
+          />
+          <FormInput
+            type="checkbox"
+            label="운동"
+            name="userhobby"
+            value="helth"
+          />
+          <FormInput
+            type="checkbox"
+            label="영화 감상"
+            name="userhobby"
+            value="watch-a-movie"
+          />
+        </fieldset>
+
+        {/* type=date */}
+        <FormInput type="date" label="여행 날짜" />
         {/* type=datetime-local */}
+
+        <FormInput type="datetime-local" label="비행기 출국 시간" />
+
         <button type="submit">제출</button>
+        {/* <button type="reset">초기화</button> */}
+        <input type="reset" value="초기화" />
       </form>
     </div>
   );
