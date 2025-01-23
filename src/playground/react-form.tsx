@@ -12,74 +12,86 @@ function ReactForm() {
   const [age, setAge] = useState<number>(22);
   const [color, setColor] = useState<string>('#2483DB');
   const [limitAge, setLimitAge] = useState<number>(40);
-  const [profileImg, setProfileImg] = useState<FileList | null>(null);
+
+  const [profileImage, setProfileImage] = useState<string | null>(null);
+
+  const handleUploadProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { target } = e;
+
+    if (target.files && target.files.length > 0) {
+      const file = target.files.item(0);
+      if (file) {
+        setProfileImage(URL.createObjectURL(file));
+      }
+    }
+  };
+
+  const [photos, setPhotos] = useState<File[]>([]);
+
+  const handleUploadPhotos = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = e.target.files;
+
+    if (fileList && fileList.length > 0) {
+      const fileArray: File[] = [];
+
+      for (let i = 0, l = fileList.length; i < l; ++i) {
+        const file = fileList.item(i);
+        if (file) fileArray.push(file);
+      }
+      setPhotos(fileArray);
+    }
+  };
 
   return (
     <div className="ReactForm">
       <h2>React 폼(form)</h2>
       <form style={formStyles}>
-        {/* type=file */}
-        <div style={{ border: '0.5px solid rgba(0 0 0 / 50%', padding: 12 }}>
+        <div style={{ padding: 12, border: '0.5px solid rgba(0 0 0 / 30%)' }}>
           <FormInput
-            label="프로필"
             type="file"
-            accept="image/*"
+            label="포토"
+            accept=".jpg, .jpeg, .png"
             multiple
-            // onChange={(e) => {
-            //   if (e.target.files) {
-            //     const { target: element } = e;
-            //     if (element.files && element.files.length > 0) {
-            //       const [profileImage] = element.files;
-            //       console.log(profileImage); // File
-            //       // 명령형 프로그래밍을 이용하여 이미지 렌더링
-            //       const profileImagePath = URL.createObjectURL(profileImage);
-            //       console.log(profileImagePath);
-
-            //       // target(input:file)의 부모
-            //       const parentElement = element.parentElement!;
-            //       parentElement.querySelector('img')?.remove();
-
-            //       const imgElement = document.createElement('img');
-            //       imgElement.setAttribute('src', profileImagePath);
-            //       imgElement.setAttribute('alt', '업로드 할 프로필');
-            //       imgElement.style.cssText = `width:100px; height:100px;`;
-            //       parentElement.append(imgElement);
-            //     }
-            //   }
-            // }}
-
-            // 선언적 프로그래밍
-            onChange={(e) => {
-              const { files } = e.target;
-
-              if (files && files.length > 0) {
-                setProfileImg(files);
-              }
-            }}
+            onChange={handleUploadPhotos}
           />
+          {photos.length > 0
+            ? photos.map((file) => {
+                const { name } = file;
+                return (
+                  <img
+                    key={name}
+                    style={{ marginBlockStart: 8 }}
+                    src={URL.createObjectURL(file)}
+                    alt={name}
+                    width={68}
+                    height={68}
+                  />
+                );
+              })
+            : null}
+        </div>
 
-          {/* 업로드 할 이미지 표시 */}
-          {profileImg &&
-            Array.from(profileImg).map((item, index) => {
-              return (
-                <img
-                  key={index}
-                  style={{ marginBlockStart: 8 }}
-                  src={URL.createObjectURL(item)}
-                  alt="업로드 할 프로필"
-                  width={100}
-                  height={100}
-                />
-              );
-            })}
+        {/* type=file (1) */}
+        <div style={{ padding: 12, border: '0.5px solid rgba(0 0 0 / 30%)' }}>
+          <FormInput
+            type="file"
+            label="프로필"
+            accept="image/*"
+            onChange={handleUploadProfile}
+          />
+          {profileImage && (
+            <img
+              style={{ marginBlockStart: 8 }}
+              src={profileImage}
+              alt="업로드 할 프로필"
+              width={100}
+              height={100}
+            />
+          )}
         </div>
 
         {/* type=text */}
-        <FormInput
-          // type="text"
-          label="이름"
-          placeholder="박수무당"
-        />
+        <FormInput label="이름" placeholder="박수무당" />
 
         {/* type=password */}
         <FormInput
@@ -177,13 +189,13 @@ function ReactForm() {
 
         {/* type=date */}
         <FormInput type="date" label="여행 날짜" />
-        {/* type=datetime-local */}
 
+        {/* type=datetime-local */}
         <FormInput type="datetime-local" label="비행기 출국 시간" />
 
         <button type="submit">제출</button>
-        {/* <button type="reset">초기화</button> */}
-        <input type="reset" value="초기화" />
+        <button type="reset">초기화</button>
+        {/* <input type="reset" value="초기화" /> */}
       </form>
     </div>
   );
