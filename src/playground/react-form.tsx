@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import FormInput from '@/components/form-input';
+import FormTextArea from '@/components/form-textarea';
 
 const formStyles = {
   display: 'flex',
@@ -40,73 +41,18 @@ function ReactForm() {
     }
   };
 
-  const [content, setContent] = useState(
-    '사랑하는 사람에게 전하는 메세지를 남겨주세요'
+  const [contents, setContents] = useState<string>(
+    '모든 사람들에게 전할 메시지를 남겨주세요~'
   );
 
-  const handleUpdateContent = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContent(e.target.value);
+  const handleUpdateContents = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setContents(e.target.value);
   };
 
   return (
     <div className="ReactForm">
       <h2>React 폼(form)</h2>
       <form style={formStyles}>
-        {/* text-area */}
-        <div style={{ display: 'flex', flexFlow: 'column', gap: 4 }}>
-          <label htmlFor="greeting-message">인사말</label>
-          <textarea
-            name={content}
-            id="greeting-message"
-            cols={60}
-            rows={4}
-            value={content}
-            onChange={handleUpdateContent}
-            style={{ resize: 'none' }}
-          />
-        </div>
-
-        <div style={{ padding: 12, border: '0.5px solid rgba(0 0 0 / 30%)' }}>
-          <FormInput
-            type="file"
-            label="포토"
-            accept="image/*"
-            multiple
-            onChange={handleUploadPhotos}
-          />
-          {photos.length > 0
-            ? photos.map(({ name }, index) => (
-                <img
-                  key={name}
-                  style={{ marginBlockStart: 8 }}
-                  src={photoURLs.at(index)}
-                  alt={name}
-                  width={68}
-                  height={68}
-                />
-              ))
-            : null}
-        </div>
-
-        {/* type=file (1) */}
-        <div style={{ padding: 12, border: '0.5px solid rgba(0 0 0 / 30%)' }}>
-          <FormInput
-            type="file"
-            label="프로필"
-            accept="image/*"
-            onChange={handleUploadProfile}
-          />
-          {profileImage && (
-            <img
-              style={{ marginBlockStart: 8 }}
-              src={profileImage}
-              alt="업로드 할 프로필"
-              width={100}
-              height={100}
-            />
-          )}
-        </div>
-
         {/* type=text */}
         <FormInput label="이름" placeholder="박수무당" />
 
@@ -210,9 +156,66 @@ function ReactForm() {
         {/* type=datetime-local */}
         <FormInput type="datetime-local" label="비행기 출국 시간" />
 
-        <button type="submit">제출</button>
-        <button type="reset">초기화</button>
-        {/* <input type="reset" value="초기화" /> */}
+        <FormTextArea
+          label="인사말"
+          name="contents"
+          value={contents}
+          onChange={handleUpdateContents}
+          resize="vertical"
+        />
+        <FormTextArea
+          label="프로포즈"
+          name="propose"
+          defaultValue="propose"
+          resize="horizontal"
+        />
+
+        {/* type=file (1) */}
+        <div style={{ padding: 12, border: '0.5px solid rgba(0 0 0 / 30%)' }}>
+          <FormInput
+            type="file"
+            label="프로필"
+            accept="image/*"
+            onChange={handleUploadProfile}
+          />
+          {profileImage && (
+            <img
+              style={{ marginBlockStart: 8 }}
+              src={profileImage}
+              alt="업로드 할 프로필"
+              width={100}
+              height={100}
+            />
+          )}
+        </div>
+
+        {/* type=file (N) */}
+        <div style={{ padding: 12, border: '0.5px solid rgba(0 0 0 / 30%)' }}>
+          <FormInput
+            type="file"
+            label="포토"
+            accept=".jpg, .jpeg, .png"
+            multiple
+            onChange={handleUploadPhotos}
+          />
+          {photos.length > 0
+            ? photos.map(({ name }, index) => (
+                <img
+                  key={name}
+                  style={{ marginBlockStart: 8 }}
+                  src={photoURLs.at(index)}
+                  alt={name}
+                  width={68}
+                  height={68}
+                />
+              ))
+            : null}
+        </div>
+
+        <div style={{ display: 'flex', gap: 8 }}>
+          <button type="submit">제출</button>
+          <button type="reset">초기화</button>
+        </div>
       </form>
     </div>
   );
