@@ -12,6 +12,7 @@ function ReactForm() {
   const [age, setAge] = useState<number>(22);
   const [color, setColor] = useState<string>('#2483DB');
   const [limitAge, setLimitAge] = useState<number>(40);
+  const [profileImg, setProfileImg] = useState<string | null>(null);
 
   return (
     <div className="ReactForm">
@@ -77,8 +78,57 @@ function ReactForm() {
         </div>
 
         {/* type=file */}
-        <FormInput label="프로필" type="file" accept="image/*" multiple />
+        <div style={{ border: '0.5px solid rgba(0 0 0 / 50%', padding: 12 }}>
+          <FormInput
+            label="프로필"
+            type="file"
+            accept="image/*"
+            // onChange={(e) => {
+            //   if (e.target.files) {
+            //     const { target: element } = e;
+            //     if (element.files && element.files.length > 0) {
+            //       const [profileImage] = element.files;
+            //       console.log(profileImage); // File
+            //       // 명령형 프로그래밍을 이용하여 이미지 렌더링
+            //       const profileImagePath = URL.createObjectURL(profileImage);
+            //       console.log(profileImagePath);
 
+            //       // target(input:file)의 부모
+            //       const parentElement = element.parentElement!;
+            //       parentElement.querySelector('img')?.remove();
+
+            //       const imgElement = document.createElement('img');
+            //       imgElement.setAttribute('src', profileImagePath);
+            //       imgElement.setAttribute('alt', '업로드 할 프로필');
+            //       imgElement.style.cssText = `width:100px; height:100px;`;
+            //       parentElement.append(imgElement);
+            //     }
+            //   }
+            // }}
+
+            // 선언적 프로그래밍
+            onChange={(e) => {
+              const { files } = e.target;
+
+              if (files && files.length > 0) {
+                const [file] = files;
+                const profileImagePath = URL.createObjectURL(file);
+                setProfileImg(profileImagePath);
+              }
+            }}
+          />
+
+          {/* 업로드 할 이미지 표시 */}
+          {profileImg && (
+            <img
+              style={{ marginBlockStart: 8 }}
+              src={profileImg}
+              alt="업로드 할 프로필"
+              width={100}
+              height={100}
+            />
+          )}
+        </div>
         {/* type=radio */}
         <fieldset>
           <legend>성별</legend>
