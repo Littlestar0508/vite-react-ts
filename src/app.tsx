@@ -1,9 +1,8 @@
-import Playground from './playground';
-
+import SignUpForm from './playground/signup-form';
 function App() {
   return (
     <>
-      <Playground></Playground>
+      <SignUpForm></SignUpForm>
     </>
   );
 }

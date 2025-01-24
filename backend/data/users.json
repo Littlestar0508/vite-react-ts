@@ -12,5 +12,12 @@
     "email": "yamoo9@naver.com",
     "profileImage": "/files/profile-03.jpg",
     "password": "$2b$09$RajfNUUenRVJ9V86NpAhVeFxHh/qK011Bs3f/VrAh4HL3aJ4YTeQS"
+  },
+  {
+    "id": "8a25e51a-f3bc-491a-81db-0ca9548b4613",
+    "name": "짝은별",
+    "email": "littlestar@littlestar.io",
+    "profileImage": "",
+    "password": "$2b$09$fYya7L3ACxMKksYqkOrqN.WS9IYcdrxZqXoasHLEFq6YJekQFnL8C"
   }
 ]
