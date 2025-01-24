@@ -2,19 +2,60 @@ import { useState } from 'react';
 import FormInput from '@/components/form-input';
 import FormTextArea from '@/components/form-textarea';
 
-const formStyles = {
-  display: 'flex',
-  flexFlow: 'column',
-  alignItems: 'start',
-  gap: 20,
+// React에 의해 제어되는 폼 입력 초깃값
+const initialFormData = {
+  limitAge: 40,
+  profileImage: null,
+  color: '#ffffff',
+  photos: [],
+  hobbies: [
+    {
+      name: 'userhobby',
+      label: '공부',
+      value: 'study',
+      checked: true,
+    },
+    {
+      name: 'userhobby',
+      label: '영화 감상',
+      value: 'watch-a-movie',
+      checked: false,
+    },
+    {
+      name: 'userhobby',
+      label: '운동',
+      value: 'helth',
+      checked: false,
+    },
+    {
+      name: 'userhobby',
+      label: '바디 프로필 촬영',
+      value: 'photo-body-profile',
+      checked: true,
+    },
+  ],
 };
 
 function ReactForm() {
-  const [age, setAge] = useState<number>(22);
-  const [color, setColor] = useState<string>('#2483DB');
-  const [limitAge, setLimitAge] = useState<number>(40);
+  // React에 의해 제어되는 입력 값 초기화 함수
+  const handleResetForm = () => {
+    setLimitAge(initialFormData.limitAge);
+    setProfileImage(initialFormData.profileImage);
+    setPhotos(initialFormData.photos);
+    setHobbyList(initialFormData.hobbies);
+  };
 
-  const [profileImage, setProfileImage] = useState<string | null>(null);
+  const [color, setColor] = useState<string>(initialFormData.color);
+  const handleChangeColor = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const nextColorValue = e.currentTarget.value;
+    setColor(nextColorValue);
+  };
+
+  const [limitAge, setLimitAge] = useState<number>(initialFormData.limitAge);
+
+  const [profileImage, setProfileImage] = useState<string | null>(
+    initialFormData.profileImage
+  );
 
   const handleUploadProfile = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { target } = e;
@@ -28,7 +69,7 @@ function ReactForm() {
   };
 
   // 컴포넌트 상태 변수 (state variable: 컴포넌트 외부의 상태 관리 시스템 기억)
-  const [photos, setPhotos] = useState<File[]>([]);
+  const [photos, setPhotos] = useState<File[]>(initialFormData.photos);
 
   // 파생된 상태 변수 (derived state variable)
   const photoURLs = photos.map((photo) => URL.createObjectURL(photo));
@@ -41,69 +82,22 @@ function ReactForm() {
     }
   };
 
-  const [contents, setContents] = useState<string>(
-    '모든 사람들에게 전할 메시지를 남겨주세요~'
-  );
-
-  const handleUpdateContents = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setContents(e.target.value);
-  };
-
-  // radio input state
-  const [isMale, setIsMale] = useState<boolean>(true);
-  const handleToggleGender = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const male = e.target.value === 'male';
-    setIsMale(male);
-  };
-
-  // checkbox input state (checked -> not value)
-  // 객체
-  // const [isChecked, setIsChecked] = useState({});
-  // const handleToggleHobby = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   const newState = { ...isChecked, [e.target.value]: [e.target.checked] };
-  //   setIsChecked(newState);
-  // };
-
+  // checkbox input state (checked)
   // 배열
-  // Checkbox{name , label , value , checked}
+  // Checkbox { id?, name, label, value, checked }
   // Checkbox[]
-  const [hobbyList, setHobbyList] = useState([
-    {
-      name: 'userhobby',
-      label: '공부',
-      value: 'study',
-      checked: true,
-    },
-    {
-      name: 'userhobby',
-      label: '운동',
-      value: 'health',
-      checked: false,
-    },
-    {
-      name: 'userhobby',
-      label: '영화 감상',
-      value: 'watch-a-movie',
-      checked: false,
-    },
-    {
-      name: 'userhobby',
-      label: '바디 프로필 촬영',
-      value: 'photo-body-profile',
-      checked: true,
-    },
-  ]);
+  const [hobbyList, setHobbyList] = useState(initialFormData.hobbies);
 
   // derived state
   // - 모두 체크 되었나?
   const isAllCheckedHobbyList = hobbyList.every((hobby) => hobby.checked);
-  console.log(isAllCheckedHobbyList);
-  // - 모두 체크 되지 않았나?
+  console.log({ isAllCheckedHobbyList });
+  // - 모두 체크 안되었나?
   const isNotAllCheckedHobbyList = hobbyList.every((hobby) => !hobby.checked);
-  console.log(isNotAllCheckedHobbyList);
+  console.log({ isNotAllCheckedHobbyList });
 
   const handleCheckedHobbies = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { checked: nextCheckedValue, value } = e.target;
+    const { value, checked: nextCheckedValue } = e.target;
 
     const nextHobbyList = hobbyList.map((hobby) => {
       if (hobby.value === value) {
@@ -111,8 +105,9 @@ function ReactForm() {
           ...hobby,
           checked: nextCheckedValue,
         };
+      } else {
+        return hobby;
       }
-      return hobby;
     });
 
     setHobbyList(nextHobbyList);
@@ -121,6 +116,7 @@ function ReactForm() {
   return (
     <div className="ReactForm">
       <h2>React 폼(form)</h2>
+
       <form style={formStyles}>
         {/* type=radio */}
         <fieldset>
@@ -134,19 +130,16 @@ function ReactForm() {
           >
             <FormInput
               type="radio"
-              label="남성"
-              name="usergender"
-              value="male"
-              checked={isMale}
-              onChange={handleToggleGender}
-            />
-            <FormInput
-              type="radio"
               label="여성"
               name="usergender"
               value="female"
-              checked={!isMale}
-              onChange={handleToggleGender}
+              defaultChecked
+            />
+            <FormInput
+              type="radio"
+              label="남성"
+              name="usergender"
+              value="male"
             />
           </div>
         </fieldset>
@@ -156,10 +149,10 @@ function ReactForm() {
           <legend>취미</legend>
           {hobbyList.map((hobby) => (
             <FormInput
-              type="checkbox"
               key={hobby.label}
+              type="checkbox"
               label={hobby.label}
-              name="userhobby"
+              name={hobby.name}
               value={hobby.value}
               checked={hobby.checked}
               onChange={handleCheckedHobbies}
@@ -181,29 +174,20 @@ function ReactForm() {
         <FormInput type="email" label="이메일" placeholder="user@company.io" />
 
         {/* type=number, controlled component */}
-        <FormInput
-          type="number"
-          label="나이"
-          value={age}
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            const { value } = e.target;
-            // const nextAgeValue: number = +value;
-            // const nextAgeValue: number = Number(value);
-            const nextAgeValue: number = parseInt(value, 10);
-            setAge(nextAgeValue);
-          }}
-        />
+        <FormInput type="number" label="나이" defaultValue={24} />
 
         {/* type=color */}
-        <FormInput
-          type="color"
-          label="색상"
-          value={color}
-          onChange={(e) => {
-            const { value } = e.target;
-            setColor(value);
-          }}
-        />
+        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+          <FormInput
+            type="color"
+            label="색상"
+            value={color}
+            onChange={handleChangeColor}
+          />
+          <output style={{ translate: '0 12px', color, fontWeight: 700 }}>
+            {color}
+          </output>
+        </div>
 
         {/* type=range */}
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
@@ -231,14 +215,13 @@ function ReactForm() {
         <FormTextArea
           label="인사말"
           name="contents"
-          value={contents}
-          onChange={handleUpdateContents}
+          placeholder="사랑하는 이들에게 따뜻한 말을 전해주세요~"
           resize="vertical"
         />
         <FormTextArea
           label="프로포즈"
           name="propose"
-          defaultValue="propose"
+          placeholder="아름답고 서정적인 대화로 마음을 훔치세요~"
           resize="horizontal"
         />
 
@@ -286,7 +269,9 @@ function ReactForm() {
 
         <div style={{ display: 'flex', gap: 8 }}>
           <button type="submit">제출</button>
-          <button type="reset">초기화</button>
+          <button type="reset" onClick={handleResetForm}>
+            초기화
+          </button>
         </div>
       </form>
     </div>
@@ -294,3 +279,10 @@ function ReactForm() {
 }
 
 export default ReactForm;
+
+const formStyles = {
+  display: 'flex',
+  flexFlow: 'column',
+  alignItems: 'start',
+  gap: 20,
+};
