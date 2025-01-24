@@ -1,4 +1,40 @@
+import { useState } from 'react';
+
 function SignUpForm() {
+  interface ResponseDataType {
+    id: string;
+    name: string;
+    email: string;
+    profileImage: string;
+  }
+
+  const [responseData, setResponseData] = useState<null | ResponseDataType>(
+    null
+  );
+
+  const ENDPOINT = 'http://localhost:4000';
+
+  const createRequestOption = (formData: FormData) => ({
+    method: 'POST',
+    body: formData,
+  });
+
+  // Promise
+  const handleSubmitPromise = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData(e.currentTarget);
+    console.log(formData); // FormData
+    console.log(formData instanceof FormData); // true
+
+    // POST ENDPOINT Request.body (FormData)
+    // fetch() 전역 함수 활용
+    fetch(ENDPOINT, createRequestOption(formData))
+      .then((response) => response.json())
+      .then((responseData) => console.log(responseData))
+      .catch((error) => console.error(error));
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     // 브라우저 기본 작동 중지
     e.preventDefault();
@@ -30,6 +66,7 @@ function SignUpForm() {
       });
 
       const data = await response.json();
+      setResponseData(data as ResponseDataType);
 
       console.log(data);
     } catch (error) {
@@ -40,6 +77,23 @@ function SignUpForm() {
 
     // UI에 반영
   };
+
+  // 조건부 렌더링
+  // 회원 가입 이후 사용자 정보(UI 화면)
+  if (responseData) {
+    return (
+      <article className="UserProfile" id={responseData.id}>
+        <h2 className="UserProfile">{responseData.name}</h2>
+        <img
+          src={`http://localhost:4000${responseData.profileImage}`}
+          alt=""
+          width={600}
+          height={600}
+        />
+        <p>{responseData.email}</p>
+      </article>
+    );
+  }
 
   return (
     <section style={{ marginInline: 48 }}>
