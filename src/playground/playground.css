@@ -1,0 +1,12 @@
+.ComboBox {
+  display: flex;
+  gap: 4px;
+
+  select {
+    appearance: none;
+    border: 2px solid rgba(0 0 0 / 30%);
+    padidng: 12px;
+    border-radius: 8px;
+
+  }
+}
