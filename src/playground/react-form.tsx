@@ -39,7 +39,7 @@ const initialFormData = {
 function ReactForm() {
   // React에 의해 제어되는 입력 값 초기화 함수
   const handleResetForm = () => {
-    setLimitAge(initialFormData.limitAge);
+    // setLimitAge(initialFormData.limitAge);
     setProfileImage(initialFormData.profileImage);
     setPhotos(initialFormData.photos);
     setHobbyList(initialFormData.hobbies);
@@ -51,7 +51,7 @@ function ReactForm() {
     setColor(nextColorValue);
   };
 
-  const [limitAge, setLimitAge] = useState<number>(initialFormData.limitAge);
+  // const [limitAge, setLimitAge] = useState<number>(initialFormData.limitAge);
 
   const [profileImage, setProfileImage] = useState<string | null>(
     initialFormData.profileImage
@@ -134,10 +134,48 @@ function ReactForm() {
     setPickSpiceMultiple(selectedOptionValues);
   };
 
+  // 진행률 상태 정의
+  // 진행률 상태 업데이트 로직핸들러 함수 정의(화면 업데이트)
+  // - 상태 값 변경 시, 진행률이 변경
+  const [progress, setProgress] = useState<number>(15);
+  const handleProgress = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target;
+
+    setProgress(parseInt(value, 10));
+  };
+
   return (
     <div className="ReactForm">
       <h2>React 폼(form)</h2>
 
+      {/* progress */}
+      <div
+        style={{ display: 'flex', flexFlow: 'column', gap: 8, marginBlock: 20 }}
+      >
+        <label htmlFor="progress-bar">진행률</label>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <progress id="progress-bar" value={progress} max="100">
+            {progress}
+          </progress>
+          <output>{progress}%</output>
+        </div>
+      </div>
+
+      {/* type=range */}
+      <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
+        <FormInput
+          type="range"
+          label="진행률 업데이트"
+          min={0}
+          max={100}
+          step={5}
+          defaultValue={progress}
+          onChange={handleProgress}
+        />
+        <output>{progress}</output>
+      </div>
+
+      {/* select */}
       <div className="ComboBox" style={{ marginBlockEnd: 12 }}>
         <label htmlFor="spice-pick-1">향신료 1개 선택</label>
         <select
@@ -241,23 +279,6 @@ function ReactForm() {
           <output style={{ translate: '0 12px', color, fontWeight: 700 }}>
             {color}
           </output>
-        </div>
-
-        {/* type=range */}
-        <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <FormInput
-            type="range"
-            label="시청 허용 나이"
-            min={10}
-            max={90}
-            step={10}
-            value={limitAge}
-            onChange={(e) => {
-              const { value } = e.target;
-              setLimitAge(parseInt(value, 10));
-            }}
-          />
-          <output>{limitAge}</output>
         </div>
 
         {/* type=date */}
