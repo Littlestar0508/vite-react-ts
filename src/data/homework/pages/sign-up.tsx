@@ -19,12 +19,14 @@ function HomeWorkSignUp() {
           label="패스워드"
           name="userpassword"
           placeholder="숫자, 영문 조합 6자리 이상 입력"
+          hasToggleButton
         />
         <FormInput
           type="password"
           label="패스워드 확인"
           name="userpasswordconfirm"
           placeholder="입력한 패스워드 다시 입력"
+          hasToggleButton
         />
         <ActionButton>회원 가입</ActionButton>
       </form>
