@@ -1,6 +1,6 @@
-import HomeWorkSignIn from './data/homework/sign-in';
-import HomeWorkSignUp from './data/homework/sign-up';
-import Nav from './data/homework/nav';
+import HomeWorkSignIn from './data/homework/pages/sign-in';
+import HomeWorkSignUp from './data/homework/pages/sign-up';
+import Nav from './data/homework/components/nav';
 import { useState } from 'react';
 
 type UIView = 'signin' | 'signup';
