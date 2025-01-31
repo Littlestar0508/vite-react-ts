@@ -1,26 +1,55 @@
 import ActionButton from '../components/action-button';
 import FormInput from '../components/form-input';
-
-// CSS Module
-// import S from './sign-in.module.css';
-
-// Sass
 import './sign-in.scss';
+import { useState } from 'react';
 
-// Sass Module
-// import S from './sign-in.module.scss';
+interface SignInForm {
+  useremail: string;
+  userpassword: string;
+}
 
-function HomeWorkSignIn() {
+function HomeworkSignIn() {
+  const [formData, setFormData] = useState<SignInForm>({
+    useremail: '',
+    userpassword: '',
+  });
+
+  const isAllInputted =
+    formData.useremail.length > 0 && formData.userpassword.length > 0;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.currentTarget;
+    const nextFormData = {
+      ...formData,
+      [name]: value,
+    };
+
+    setFormData(nextFormData);
+  };
+
+  const handleSignIn = async (formData: FormData) => {
+    if (!isAllInputted) return;
+
+    const response = await fetch('http://localhost:4000/api/signin', {
+      method: 'POST',
+      body: formData,
+    });
+
+    const data = await response.json();
+    console.log(data);
+  };
+
   return (
     <section>
-      <h2 className="sr-only">로그인 폼</h2>
-      {/* <form className={S.signInForm}> */}
-      <form className="signInForm">
+      <h3 className="sr-only">로그인 폼</h3>
+      <form className="signInForm" action={handleSignIn}>
         <FormInput
           type="email"
           label="이메일"
           name="useremail"
           placeholder="user@company.io"
+          value={formData.useremail}
+          onChange={handleChange}
         />
         <FormInput
           type="password"
@@ -28,11 +57,13 @@ function HomeWorkSignIn() {
           name="userpassword"
           placeholder="숫자, 영문 조합 6자리 이상 입력"
           hasToggleButton
+          value={formData.userpassword}
+          onChange={handleChange}
         />
-        <ActionButton>회원 가입</ActionButton>
+        <ActionButton aria-disabled={!isAllInputted}>로그인</ActionButton>
       </form>
     </section>
   );
 }
 
-export default HomeWorkSignIn;
+export default HomeworkSignIn;
