@@ -3,6 +3,16 @@ import { getUIView, type UIView } from '@/homework/lib/ui-view';
 import './style.css';
 import clsx from 'clsx/lite';
 
+// clsx/lite 모듈
+// console.log(clsx('a','b',true && 'c'));
+// console.log(clsx('a','b', false && 'c'));
+
+// clsx 모듈
+// console.log(clsx('a', 'b', { c: true }));
+// console.log(clsx('a', 'b', ['d']));
+
+// clsx/lite 모듈은 배열과 객체는 합성이 불가능하다
+
 function Nav() {
   const [uiView] = useState<UIView>(getUIView);
   const isSignInView = uiView.includes('signin');
