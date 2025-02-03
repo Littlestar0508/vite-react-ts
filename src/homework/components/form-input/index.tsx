@@ -49,6 +49,7 @@ function FormInput({
               onRender={<IconEyeOn />}
               isOff={isOff}
               onClick={handleToggle}
+              className="size-16"
             />
           )}
         </div>
