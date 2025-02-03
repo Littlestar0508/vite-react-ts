@@ -7,7 +7,7 @@ const root = document.getElementById('root');
 
 if (root) {
   createRoot(root, {
-    identifierPrefix: 'star-',
+    identifierPrefix: 'euid-',
   }).render(
     <StrictMode>
       <App />
