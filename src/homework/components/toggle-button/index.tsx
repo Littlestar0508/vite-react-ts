@@ -1,4 +1,5 @@
-import clsx from 'clsx/lite';
+// import clsx from 'clsx/lite';
+import { twMerge } from 'tailwind-merge';
 
 type ToggleButtonProps = React.ComponentProps<'button'> & {
   label: string;
@@ -21,11 +22,18 @@ function ToggleButton({
   //   leading-none hover:not-[:disabled,[aria-disabled=true]]:bg-black/10
   // ${className}`;
 
-  const buttonStyles = clsx(
+  // const buttonStyles = clsx(
+  //   `flex justify-center items-center
+  //   size-8 rounded-md border-0 p-0 bg-transparent
+  //   leading-none hover:not-[:disabled,[aria-disabled=true]]:bg-black/10`,
+  //   className
+  // );
+
+  const buttonStyles = twMerge(
     `flex justify-center items-center 
     size-8 rounded-md border-0 p-0 bg-transparent
     leading-none hover:not-[:disabled,[aria-disabled=true]]:bg-black/10`,
-    className
+    className // 'p-5'
   );
 
   return (
