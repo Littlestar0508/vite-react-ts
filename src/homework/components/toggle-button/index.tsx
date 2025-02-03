@@ -1,5 +1,4 @@
-// import clsx from 'clsx/lite';
-import { twMerge } from 'tailwind-merge';
+import { tm } from '@/utils/tw-merge';
 
 type ToggleButtonProps = React.ComponentProps<'button'> & {
   label: string;
@@ -29,11 +28,12 @@ function ToggleButton({
   //   className
   // );
 
-  const buttonStyles = twMerge(
+  const buttonStyles = tm(
     `flex justify-center items-center 
     size-8 rounded-md border-0 p-0 bg-transparent
     leading-none hover:not-[:disabled,[aria-disabled=true]]:bg-black/10`,
-    className // 'p-5'
+    { 'bg-sky-300': !isOff },
+    className
   );
 
   return (
