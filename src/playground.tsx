@@ -5,32 +5,36 @@ import SignUpForm from '@/homework/pages/sign-up';
 import { getUIView, type UIView } from '@/homework/lib/ui-view';
 import StateManagement from '@/homework/pages/state-management';
 
-function Playground() {
-  const [uiView] = useState<UIView>(getUIView);
-
-  let ViewComponent: React.ReactElement | null = null;
-
+const getViewComponent = (uiView: UIView) => {
+  let viewElement: React.ReactElement | null = null;
   switch (uiView) {
     case 'signin': {
-      ViewComponent = <SignInForm />;
+      viewElement = <SignInForm />;
       break;
     }
     case 'signup': {
-      ViewComponent = <SignUpForm />;
+      viewElement = <SignUpForm />;
       break;
     }
     case 'state-management': {
-      ViewComponent = <StateManagement />;
+      viewElement = <StateManagement />;
       break;
     }
   }
+  return viewElement;
+};
+
+function Playground() {
+  const [uiView] = useState<UIView>(getUIView);
+
+  const viewElement = getViewComponent(uiView);
 
   return (
     <div className="Playground bg-euid-gray-200 wrapper">
       <h1>플레이그라운드</h1>
       <Nav />
 
-      {ViewComponent}
+      {viewElement}
     </div>
   );
 }
