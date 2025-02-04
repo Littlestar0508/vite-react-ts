@@ -7,8 +7,6 @@ export default function History() {
       <h3>게임 히스토리</h3>
       <ol className={tm('flex flex-col space-y-1')}>
         <HistoryItem />
-        <HistoryItem />
-        <HistoryItem />
       </ol>
     </section>
   );
