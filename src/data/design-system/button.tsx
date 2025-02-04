@@ -1,14 +1,5 @@
 import { cva, type VariantProps } from 'class-variance-authority';
 
-// Component Variants
-// CVA(class variance authority)
-// variants
-//   intent
-//     primary | secondary | ghost
-//   size
-//     xs | sm | md | lg | xl | 2-xl
-//   disabled
-//     false | true
 const buttonVariants = cva(
   // 기본 클래스 이름 ( string | string[] | clsx 값 )
   'font-semibold border-1 rounded',

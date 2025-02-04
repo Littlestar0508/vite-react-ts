@@ -1,18 +1,21 @@
+import { getUIView } from '@/homework/lib/ui-view';
 import { tm } from '@/utils/tw-merge';
 
 type NavLinkProps = React.ComponentProps<'a'> & {
-  isActive: boolean;
+  href: string;
   activeClassName?: string;
 };
 
 export default function NavLink({
   href,
   children,
-  isActive,
   activeClassName = 'active',
   className,
   ...restProps
 }: NavLinkProps) {
+  const view = getUIView();
+  const isActive = view.includes(href);
+
   return (
     <a
       href={`/?view=${href}`}
