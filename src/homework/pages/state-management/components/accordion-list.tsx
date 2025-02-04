@@ -1,5 +1,6 @@
 import AccordionItem from './accordion-item';
 import { AccordionOpenedCount } from './accordion-opened-count';
+import { tm } from '@/utils/tw-merge';
 
 interface AccordionListProps {
   title: string;
@@ -7,7 +8,7 @@ interface AccordionListProps {
 
 export default function AccordionList({ title }: AccordionListProps) {
   return (
-    <article>
+    <article className={tm('flex flex-col space-y-4 items-center', 'mt-10')}>
       <h3 className="sr-only">{title}</h3>
       <AccordionOpenedCount />
       <AccordionItem title="인생이란 무엇인가..">
