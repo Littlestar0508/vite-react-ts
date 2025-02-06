@@ -1,6 +1,12 @@
 import { tm } from '@/utils/tw-merge';
 
-export default function HistoryItem() {
+type HistoryItemProps = React.ComponentProps<'button'>;
+
+export default function HistoryItem({
+  children,
+  className = '',
+  ...restProps
+}: HistoryItemProps) {
   return (
     <li>
       <button
@@ -11,10 +17,12 @@ export default function HistoryItem() {
           'rounded-md',
           'cursor-pointer',
           'text-xs',
-          'hover:bg-black'
+          'hover:bg-black',
+          className
         )}
+        {...restProps}
       >
-        게임 시작!
+        {children}
       </button>
     </li>
   );
