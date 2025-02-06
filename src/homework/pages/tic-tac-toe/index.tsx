@@ -1,5 +1,5 @@
 import { tm } from '@/utils/tw-merge';
-import Board from './components/Board';
+import Board from './components/board';
 import History from './components/history';
 
 function TicTacToe() {
