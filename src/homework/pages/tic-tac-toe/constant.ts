@@ -13,6 +13,11 @@ export type Player = null | PLAYER.ONE | PLAYER.TWO;
 
 export type Cells = Player[];
 
+// 다음 플레이어 반환 함수
+export const getNextPlayer = (order: number) => {
+  return order % 2 === 0 ? PLAYER.ONE : PLAYER.TWO;
+};
+
 // 게임의 승리 조건
 const WIN_CONDITION = [
   [0, 1, 2],
@@ -48,4 +53,25 @@ export const getWinner = (cells: Cells): Winner => {
   }
 
   return winner as Winner;
+};
+
+// 게임 상태 메세지 반환 함수
+export const getStatusMessage = (
+  nextPlayer: PLAYER,
+  winner: Winner,
+  cells: Cells
+) => {
+  let statusMessage = `넥스트 플레이어 ${nextPlayer}`;
+
+  if (winner) {
+    statusMessage = `위너! ${winner.player}`;
+  }
+
+  const isDraw = !winner && cells.every(Boolean);
+
+  if (isDraw) {
+    statusMessage = '비겼습니다! 😵‍💫';
+  }
+
+  return statusMessage;
 };
