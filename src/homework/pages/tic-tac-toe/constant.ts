@@ -25,7 +25,7 @@ const WIN_CONDITION = [
   [2, 4, 6],
 ];
 
-type Winner = {
+export type Winner = {
   player: PLAYER;
   condition: [number, number, number];
 } | null;
