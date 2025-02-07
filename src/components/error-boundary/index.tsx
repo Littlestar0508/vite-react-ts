@@ -1,6 +1,8 @@
 import { Component, type ErrorInfo } from 'react';
+import ErrorFallbackUI from './error-fallback-ui';
 
 interface Props {
+  FallbackComponent?: typeof ErrorFallbackUI;
   children: React.ReactNode;
 }
 
@@ -19,14 +21,14 @@ class ErrorBoundary extends Component<Props, State> {
 
   // 오류 감지하기 위한 라이프 사이클 메서드
   // static getDerivedStateFromError(error: Error) {
-  // 상태 업데이트
+  //   // 상태 업데이트
   //   return {
   //     hasError: true,
   //     error,
   //   };
   // }
 
-  componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
+  componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     this.setState({
       hasError: true,
       errorInfo,
@@ -35,25 +37,21 @@ class ErrorBoundary extends Component<Props, State> {
   }
 
   render() {
-    // 대체(fallback) UI를 렌더링(Error O)
+    // 오류가 있으면
+    // 대체(fallback) 컴포넌트를 렌더링
     if (this.state.hasError) {
       const { error, errorInfo } = this.state;
+      const { FallbackComponent } = this.props;
 
-      return (
-        <div
-          role="alert"
-          className="overflow-scroll flex flex-col gap-2 border-4 border-red-600 text-red-600 p-5"
-        >
-          <h2 className="text-xl font-semibold">{error?.name} 오류 발생!!!</h2>
-          <p className="text-red-700 font-normal">{error?.message}</p>
-          <pre className="-ml-8 text-xs leading-[2]">
-            {errorInfo?.componentStack}
-          </pre>
-        </div>
+      return FallbackComponent ? (
+        <FallbackComponent error={error} errorInfo={errorInfo} />
+      ) : (
+        <ErrorFallbackUI error={error} errorInfo={errorInfo} />
       );
     }
 
-    // 하위 컴포넌트 렌더링(Error X)
+    // 오류가 없으면
+    // 하위 컴포넌트 렌더링
     return this.props.children;
   }
 }
