@@ -1,5 +1,5 @@
 import { tm } from '@/utils/tw-merge';
-import type { FallbackProps } from './types.ts';
+import type { FallbackProps } from './types';
 
 function ErrorFallbackUI({
   error,
