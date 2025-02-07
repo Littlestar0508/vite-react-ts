@@ -1,6 +1,7 @@
-// 클래스 컴포넌트 라이프 사이클
-import { Component } from 'react';
+// --------------------------------------------------------------------------
+// 클래스 컴포넌트 라이프사이클 메서드
 import { tm } from '@/utils/tw-merge';
+import { Component } from 'react';
 
 // 속성(props)
 interface Props {
@@ -10,23 +11,28 @@ interface Props {
   max?: number;
 }
 
+type RequiredProps = Required<Props>;
+
 // 상태(state)
 interface State {
   count: number;
+  doubleCount?: number;
 }
 
-export default class Counter extends Component<Props, State> {
-  static defaultProps: Required<Props> = {
-    count: 0,
+class Counter extends Component<Props, State> {
+  // 기본 속성 값 설정
+  static defaultProps: RequiredProps = {
+    count: 9,
     step: 1,
     min: 0,
     max: 10,
   };
 
+  // [라이프사이클 메서드] ---------------------------------------------
   // 생성(constructor) 시점
   constructor(props: Props) {
-    // 반드시 호출되어야 함
-    // React.Component 클래스를 슈퍼 클래스로 사용할때 props로 전달해야함
+    // 반드시 호출되어야 함!
+    // React.Component 클래스를 슈퍼 클래스로 사용할 때 props를 전달해야 함!
     super(props);
 
     // 컴포넌트 상태 선언
@@ -40,40 +46,96 @@ export default class Counter extends Component<Props, State> {
     // this.handleIncrease = this.handleIncrease.bind(this);
   }
 
-  // 클래스 필드
-  state = {
+  // [라이프사이클 메서드] ---------------------------------------------
+  // 외부 데이터(props)로부터 파생된 상태(derived state) 설정 시점
+  static getDerivedStateFromProps(
+    _props: Readonly<RequiredProps>,
+    state: Readonly<State>
+  ) {
+    // console.log(
+    //   '외부 데이터(props)로부터 파생된 상태(derived state) 설정 시점'
+    // );
+    // console.log(props);
+
+    // 파생된 상태 (derived state)
+    return {
+      // doubleCount: props.count * 2,
+      doubleCount: state.count * 2,
+    };
+  }
+
+  // <클래스 필드>
+  state: State = {
     count: this.props.count ?? Counter.defaultProps.count,
   };
 
-  // 렌더 시점
+  // [라이프사이클 메서드] ---------------------------------------------
+  // 컴포넌트 렌더링 진행 유무 결정 시점
+  // <주의!!!> 오직 성능 최적화 만을 위해 사용!!
+  shouldComponentUpdate(
+    nextProps: Readonly<RequiredProps>,
+    nextState: Readonly<State>
+  ): boolean {
+    if (nextProps.max < nextState.count) {
+      console.log('렌더링 차단');
+      return false;
+    }
+
+    return true;
+
+    // 렌더링 해라
+    // return true;
+    // 렌더링 하지마라
+    // return false;
+  }
+
+  // [라이프사이클 메서드] ---------------------------------------------
+  // 렌더(render) 시점
   render() {
     // 컴포넌트 데이터(속성, 상태) 접근 가능
+    // console.log(this.props);
+    // console.log(this.state);
+
     return (
-      <div className={tm('flex flex-col gap-3 items-start')}>
-        <h2>카운터</h2>
-        <output>{this.state.count}</output>
-        <div className={tm('flex gap-2')}>
-          <button type="button" onClick={this.handleIncrease}>
-            +{this.props.step}
-          </button>
-          <button type="button" onClick={this.handleDecrease}>
+      <div className={tm('flex flex-col gap-2 items-start')}>
+        <h2 className="sr-only">카운터</h2>
+        <output className={tm('font-semibold text-3xl text-react')}>
+          {this.state.count} {this.state.doubleCount}
+        </output>
+        <div className={tm('flex', '*:hover:bg-sky-800 *:cursor-pointer')}>
+          <button
+            type="button"
+            className={tm('px-6 py-1 bg-react text-white rounded-l-full')}
+            onClick={this.handleDecrease}
+          >
             -{this.props.step}
+          </button>
+          <button
+            type="button"
+            className={tm('px-6 py-1 bg-react text-white rounded-r-full')}
+            onClick={this.handleIncrease}
+          >
+            +{this.props.step}
           </button>
         </div>
       </div>
     );
   }
 
-  // 클래스 필드
+  // <클래스 필드>
   clearIntervalId: NodeJS.Timeout | number = 0;
 
-  // 컴포넌트 마운트(componentDidMount)
-  componentDidMount(): void {
-    // 리액트 렌더링 프로세스와 상관 없는 이펙트 실행
+  // [라이프사이클 메서드] ---------------------------------------------
+  // 컴포넌트 마운트(component did mount) 이후 시점
+
+  componentDidMount() {
+    // 리액트 렌더링 프로세스와 상관없는 이펙트 실행 (사이드 이펙트 처리)
     // const clearId =
-    // 이벤트 구독
+
+    // 타이머 이벤트 구독
+    console.log('타이머 이벤트 구독');
     this.clearIntervalId = setInterval(() => {
-      console.log(new Date().toLocaleDateString());
+      console.log(new Date().toLocaleTimeString());
       // alert('타이머(사이드 이펙트) 처리');
       // clearTimeout(clearId);
       // console.log('타이머 클리어!');
@@ -85,15 +147,17 @@ export default class Counter extends Component<Props, State> {
     _prevProps: Readonly<Props>,
     prevState: Readonly<State>
   ): void {
-    console.group('이전 상태값');
+    console.group('이전 상태 값');
     // console.log({ prevProps });
-    console.log({ prevState });
+    console.log(prevState.count);
     console.groupEnd();
-    console.group('현재 상태값');
-    console.log(this.state);
+
+    console.group('현재 상태 값');
+    console.log(this.state.count);
     console.groupEnd();
 
     // 사이드 이펙트
+    // 리액트 렌더링 프로세스와 상관없는 일 처리
     if (this.state.count > 9) {
       document.body.classList.add('bg-react', 'text-white');
     } else {
@@ -101,28 +165,29 @@ export default class Counter extends Component<Props, State> {
     }
   }
 
-  // 컴포넌트 언마운드(component will unmount) 이전 시점
-  componentWillUnmount(): void {
-    console.log('Counter Will Be Unmount');
-
+  // 컴포넌트 언마운트(component will unmount) 이전 시점
+  componentWillUnmount() {
+    console.log('Counter 언마운트 될 예정');
     // 타이머 이벤트 구독 해지
+    console.log('타이머 이벤트 구독 해지');
     clearInterval(this.clearIntervalId);
   }
 
-  // 클래스 필드
-  // 이벤트 핸들러
+  // <클래스 필드>
+  // 이벤트 핸들러 ---------------------------------------------------
   handleDecrease = () => {
-    // console.log('감소', this);
     const { step } = this.props;
+
     if (step) {
       this.setState({
         count: this.state.count - step,
       });
     }
   };
+
   handleIncrease = () => {
-    // console.log('증가', this);
     const { step } = this.props;
+
     if (step) {
       this.setState({
         count: this.state.count + step,
@@ -130,3 +195,5 @@ export default class Counter extends Component<Props, State> {
     }
   };
 }
+
+export default Counter;
