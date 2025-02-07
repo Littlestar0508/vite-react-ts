@@ -17,8 +17,8 @@ type RequiredProps = Required<Props>;
 interface State {
   count: number;
   doubleCount?: number;
-  error?: null | Error;
-  errorInfo?: null | ErrorInfo;
+  error: null | Error;
+  errorInfo: null | ErrorInfo;
 }
 
 class Counter extends Component<Props, State> {
@@ -69,6 +69,8 @@ class Counter extends Component<Props, State> {
   // <클래스 필드>
   state: State = {
     count: this.props.count ?? Counter.defaultProps.count,
+    error: null,
+    errorInfo: null,
   };
 
   // [라이프사이클 메서드] ---------------------------------------------
@@ -124,6 +126,17 @@ class Counter extends Component<Props, State> {
     );
   }
 
+  // [라이프사이클 메서드] ---------------------------------------------
+  getSnapshotBeforeUpdate() {
+    // 이전 속성 또는 상태와 현재 렌더링 시점의 속성 또는 상태 비교
+    // prevProps: Readonly<Props>,
+    // prevState: Readonly<State>
+    //
+    // ui가 부자연 스러우면... 스냅샷 데이터 반환
+    // snapshot 데이터
+    // return snapshot;
+  }
+
   // <클래스 필드>
   clearIntervalId: NodeJS.Timeout | number = 0;
 
@@ -148,6 +161,7 @@ class Counter extends Component<Props, State> {
   componentDidUpdate(
     _prevProps: Readonly<Props>,
     prevState: Readonly<State>
+    // _snapshot: unknown
   ): void {
     console.group('이전 상태 값');
     // console.log({ prevProps });
@@ -157,6 +171,9 @@ class Counter extends Component<Props, State> {
     console.group('현재 상태 값');
     console.log(this.state.count);
     console.groupEnd();
+
+    // 부자연스러운 UI 움직임을 정상적으로 보이도록 처리 (사이드 이펙트)
+    // 스냅샷 정보 활용
 
     // 사이드 이펙트
     // 리액트 렌더링 프로세스와 상관없는 일 처리
@@ -175,7 +192,7 @@ class Counter extends Component<Props, State> {
     clearInterval(this.clearIntervalId);
   }
 
-  // 라이프 사이클 메서드
+  // [라이프사이클 메서드] ---------------------------------------------
   // 정적(클래스) 멤버
   static getDerivedStateFromError(error: Error) {
     return {
@@ -188,12 +205,13 @@ class Counter extends Component<Props, State> {
   componentDidCatch(error: Error, errorInfo: ErrorInfo): void {
     this.setState({
       error,
-      errorInfo,
+      errorInfo, // { componentStack, digest }
     });
   }
 
   // <클래스 필드>
   // 이벤트 핸들러 ---------------------------------------------------
+  // [이벤트 핸들러]
   handleDecrease = () => {
     const { step } = this.props;
 
