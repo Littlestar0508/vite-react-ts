@@ -1,5 +1,5 @@
-import debounce from '@/utils/debounce';
-import throttle from '@/utils/throttle';
+import debounce from 'lodash-es/debounce';
+import throttle from 'lodash-es/throttle';
 import { tm } from '@/utils/tw-merge';
 import { useEffect, useId, useState } from 'react';
 
