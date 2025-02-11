@@ -15,7 +15,7 @@ export default function SearchedList({
 }: SearchedListProps) {
   // [상태 -> 속성(읽기 전용)] list
   // [파생된 상태] filteredList = query를 기반으로 하여 list를 순회한 후, 새 리스트를 반환
-  const word = query.toLowerCase();
+  const word = query.toLowerCase() ?? '';
 
   const filteredList = list.filter(
     (item) =>

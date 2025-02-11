@@ -1,6 +1,7 @@
 import { tm } from '@/utils/tw-merge';
 import throttle from 'lodash-es/throttle';
 import { useId } from 'react';
+import { setQueryParam } from '../utils/search-params';
 
 interface SearchFormProps {
   query: string;
@@ -14,8 +15,19 @@ export default function SearchForm({ query, setQuery }: SearchFormProps) {
     setQuery(e.target.value)
   );
 
+  const handleSearch = () =>
+    // formData: FormData
+    {
+      // console.log(Object.fromEntries(formData));
+      console.log(query);
+
+      // 브라우저에 쿼리 추가
+      // ?view=search-list&query='검색어'
+      setQueryParam(query);
+    };
+
   return (
-    <form className={tm('mb-10')}>
+    <form className={tm('mb-10')} action={handleSearch}>
       <label htmlFor={searchInputId} className="sr-only">
         카드 검색
       </label>

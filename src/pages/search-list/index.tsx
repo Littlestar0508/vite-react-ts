@@ -4,10 +4,14 @@ import SearchedList from './components/searched-list';
 import colorMoodList from './data/color-mood-list';
 import { type ColorMoodItem } from './types';
 import { useState } from 'react';
+import { getQueryParam } from './utils/search-params';
 
 export default function SearchListPage() {
   const [list, setList] = useState<ColorMoodItem[]>(colorMoodList);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(() => {
+    // lazy initializer
+    return getQueryParam() ?? '';
+  });
 
   const handleUpdateList = (item: ColorMoodItem, isFavorited: boolean) => {
     const nextList = list.map((it) => {
