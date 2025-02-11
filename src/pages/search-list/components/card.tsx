@@ -1,7 +1,13 @@
-export default function Card() {
+import { ColorMoodItem } from '../types';
+
+interface CardProps {
+  item: ColorMoodItem;
+}
+
+export default function Card({ item }: CardProps) {
   return (
     <article>
-      <h3>카드 제목</h3>
+      <h4>{item.title}</h4>
     </article>
   );
 }
