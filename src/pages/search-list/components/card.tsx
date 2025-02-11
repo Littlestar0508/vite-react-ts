@@ -2,18 +2,19 @@ import { tm } from '@/utils/tw-merge';
 import { Heart, HeartSolid } from '@mynaui/icons-react';
 import { ColorMoodItem } from '../types';
 import generateGradient from '../utils/generate-gradient';
-import { useState } from 'react';
 
 interface CardProps {
   item: ColorMoodItem;
+  onUpdate: (item: ColorMoodItem, isFavorited: boolean) => void;
 }
 
-export default function Card({ item }: CardProps) {
-  const [isFavorited, setIsFavorited] = useState(false);
+export default function Card({ item, onUpdate }: CardProps) {
+  // 파생된 상태 from Props
+  const isFavorited = item.isFavorited;
 
   const handleChangeFavorite = () => {
     const nextIsFavorited = !isFavorited;
-    setIsFavorited(nextIsFavorited);
+    onUpdate(item, nextIsFavorited);
   };
 
   const handleLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
