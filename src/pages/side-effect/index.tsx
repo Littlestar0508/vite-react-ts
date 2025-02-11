@@ -1,5 +1,6 @@
 import debounce from 'lodash-es/debounce';
 import throttle from 'lodash-es/throttle';
+import shuffle from 'lodash-es/shuffle';
 import { tm } from '@/utils/tw-merge';
 import { useEffect, useId, useState } from 'react';
 
@@ -36,6 +37,33 @@ function SideEffectDemo() {
     };
   }, [throttleTime]);
 
+  // ------------------------------------------------
+  // const [list, setList] = useState<number>([1, 2, 3, 4, 5]);
+  const [list, setList] = useState([
+    {
+      id: 'subject-1',
+      defaultValue: 'react',
+    },
+    {
+      id: 'subject-2',
+      defaultValue: 'react-dom',
+    },
+    {
+      id: 'subject-3',
+      defaultValue: 'react-router',
+    },
+    {
+      id: 'subject-4',
+      defaultValue: 'zustand',
+    },
+  ]);
+  console.log(list);
+
+  const handleShuffleList = () => {
+    // 리스트 셔플(섞음)
+    setList(shuffle(list));
+  };
+
   return (
     <section className="flex flex-col items-start">
       <h2 className="text-2xl font-medium">마우스 포인터 움직임 조절</h2>
@@ -67,6 +95,39 @@ function SideEffectDemo() {
         <span className="font-thin mx-3">/</span> y{' '}
         <span className="font-thin mx-3">=</span> {mouse.y}
       </output>
+
+      <h2 className="mt-6 text-2xl font-medium">
+        key 속성에 index를 사용하면 안되는 이유
+      </h2>
+
+      <button
+        type="button"
+        onClick={handleShuffleList}
+        className={tm(
+          'cursor-pointer',
+          'inline-flex justify-center',
+          'my-5 py-3 px-5 rounded-full',
+          'bg-black text-white text-base font-extrabold',
+          'active:scale-90 active:opacity-80'
+        )}
+      >
+        리스트 셔플
+      </button>
+
+      <ul className="flex flex-col gap-2 *:text-lg *:font-semibold ">
+        {list.map((item, index) => (
+          <li key={item.id}>
+            <span className="block mb-2">
+              {index} [{item.id}]
+            </span>
+            <input
+              type="text"
+              defaultValue={item.defaultValue}
+              className="p-2 bg-white rounded-md"
+            />
+          </li>
+        ))}
+      </ul>
     </section>
   );
 }
