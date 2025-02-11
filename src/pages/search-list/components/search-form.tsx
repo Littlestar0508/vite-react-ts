@@ -1,7 +1,7 @@
 import { tm } from '@/utils/tw-merge';
 import throttle from 'lodash-es/throttle';
 import { useId } from 'react';
-import { setQueryParam } from '../utils/search-params';
+import { deleteQueryParam, setQueryParam } from '../utils/query-params';
 
 interface SearchFormProps {
   query: string;
@@ -10,6 +10,7 @@ interface SearchFormProps {
 
 export default function SearchForm({ query, setQuery }: SearchFormProps) {
   const searchInputId = useId();
+  const nextQuery = query.trim();
 
   const handleQuery = throttle((e: React.ChangeEvent<HTMLInputElement>) =>
     setQuery(e.target.value)
@@ -19,11 +20,13 @@ export default function SearchForm({ query, setQuery }: SearchFormProps) {
     // formData: FormData
     {
       // console.log(Object.fromEntries(formData));
-      console.log(query);
-
-      // 브라우저에 쿼리 추가
-      // ?view=search-list&query='검색어'
-      setQueryParam(query);
+      if (nextQuery.length > 0) {
+        // 브라우저에 쿼리 추가
+        // ?view=search-list&query='검색어'
+        setQueryParam(nextQuery);
+      } else {
+        deleteQueryParam();
+      }
     };
 
   return (
