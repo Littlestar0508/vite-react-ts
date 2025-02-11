@@ -9,7 +9,12 @@ interface CardProps {
 }
 
 export default function Card({ item }: CardProps) {
-  const [isFavorited] = useState(false);
+  const [isFavorited, setIsFavorited] = useState(false);
+
+  const handleChangeFavorite = () => {
+    const nextIsFavorited = !isFavorited;
+    setIsFavorited(nextIsFavorited);
+  };
 
   const handleLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
@@ -32,6 +37,7 @@ export default function Card({ item }: CardProps) {
           type="button"
           title={buttonLabel}
           aria-label={buttonLabel}
+          onClick={handleChangeFavorite}
           className={tm(
             'cursor-pointer',
             'rounded-full',
