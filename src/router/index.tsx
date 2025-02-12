@@ -8,11 +8,13 @@ import TicTacToe from '@/pages/tic-tac-toe';
 import SignInForm from '@/pages/sign-in';
 import SignUpForm from '@/pages/sign-up';
 import NotFound from '@/pages/not-found';
+import AccessDOM from '@/pages/access-dom';
 
 // --------------------------------------------------------------------------
 // 내비게이션 리스트 데이터
 
 export const navList = [
+  { path: 'accessing-dom', text: 'DOM 접근/조작', element: <AccessDOM /> },
   {
     path: 'memory-component-data',
     text: '데이터 메모리',
