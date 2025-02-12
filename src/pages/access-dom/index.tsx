@@ -1,6 +1,7 @@
 import { Search } from '@mynaui/icons-react';
 import { useEffect, useRef, useState } from 'react';
 import VanillaTilt, { TiltOptions } from 'vanilla-tilt';
+import TiltBox from './components/tilt-box';
 
 const VANILLA_TILT_OPTIONS: TiltOptions = {
   // 기울이는 방향을 반대로 변경
@@ -151,6 +152,14 @@ function AccessDOMPage() {
           <Search />
         </button>
       </form>
+
+      <div className="flex flex-wrap">
+        {Array(12)
+          .fill(null)
+          .map((_, index) => (
+            <TiltBox key={index}>{index}</TiltBox>
+          ))}
+      </div>
     </section>
   );
 }
