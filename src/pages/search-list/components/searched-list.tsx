@@ -26,7 +26,7 @@ function SearchedList({ list, query, onUpdate }: SearchedListProps) {
       <h3 className="sr-only">검색된 리스트</h3>
       {isEmpty && (
         <p className="text-xl text-slate-700 font-semibold text-center">
-          &quot;{query}&quot; 검색된 정보가 없습니다. 🥲
+          &quot;{query}&quot; 검색된 정보가 없습니다.
         </p>
       )}
       {!isEmpty && (
