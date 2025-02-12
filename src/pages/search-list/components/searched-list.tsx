@@ -1,21 +1,15 @@
-import Card from './card';
-import { type ColorMoodItem } from '../types';
 import { tm } from '@/utils/tw-merge';
+import { type ColorMoodItem } from '../types';
+import Card from './card';
 
 interface SearchedListProps {
-  list: ColorMoodItem[];
   query: string;
+  list: ColorMoodItem[];
   onUpdate: (item: ColorMoodItem, isFavorited: boolean) => void;
 }
 
-export default function SearchedList({
-  list,
-  onUpdate,
-  query,
-}: SearchedListProps) {
-  // [상태 -> 속성(읽기 전용)] list
-  // [파생된 상태] filteredList = query를 기반으로 하여 list를 순회한 후, 새 리스트를 반환
-  const word = query.toLowerCase() ?? '';
+function SearchedList({ list, query, onUpdate }: SearchedListProps) {
+  const word = query.toLowerCase();
 
   const filteredList = list.filter(
     (item) =>
@@ -23,23 +17,26 @@ export default function SearchedList({
       item.description.includes(word) ||
       item.tags.includes(word)
   );
+
   const filteredCount = filteredList.length;
   const isEmpty = filteredCount === 0;
 
   return (
-    <section>
+    <section className="relative w-full my-8">
       <h3 className="sr-only">검색된 리스트</h3>
       {isEmpty && (
-        <p className="text-lg text-slate-700 mb-5">검색된 정보가 없습니다</p>
+        <p className="text-xl text-slate-700 font-semibold text-center">
+          &quot;{query}&quot; 검색된 정보가 없습니다. 🥲
+        </p>
       )}
       {!isEmpty && (
         <>
-          <p className="text-lg text-slate-700 text-center mb-5">
-            {filteredCount}개 검색
+          <p className="absolute left-1/2 -translate-x-1/2 -top-11 text-sky-900 font-semibold">
+            {filteredCount}개 검색됨
           </p>
-          <ul className={tm('flex flex-col gap-12')} aria-hidden={isEmpty}>
+          <ul className={tm('flex flex-col gap-12')}>
             {filteredList.map((item) => (
-              <Card item={item} key={item.id} onUpdate={onUpdate} />
+              <Card key={item.id} item={item} onUpdate={onUpdate} />
             ))}
           </ul>
         </>
@@ -47,3 +44,5 @@ export default function SearchedList({
     </section>
   );
 }
+
+export default SearchedList;

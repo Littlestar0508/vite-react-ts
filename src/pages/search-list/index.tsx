@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { tm } from '@/utils/tw-merge';
-import { getQueryParam } from './utils/query-params';
+import { deleteQueryParam, getQueryParam } from './utils/query-params';
 import SearchedList from './components/searched-list';
 import SearchForm from './components/search-form';
 import colorMoodList from './data/color-mood-list';
@@ -37,6 +37,7 @@ function SearchListPage() {
     // 이벤트 해지
     return () => {
       globalThis.removeEventListener('popstate', handlePopState);
+      deleteQueryParam();
     };
   }, []);
 
