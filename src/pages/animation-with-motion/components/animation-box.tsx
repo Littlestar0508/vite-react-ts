@@ -19,7 +19,7 @@ export default function AnimationBox({
         },
         {
           type: 'spring',
-          duration: '1',
+          duration: 1,
         }
       );
     }

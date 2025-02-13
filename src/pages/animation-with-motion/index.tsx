@@ -1,7 +1,9 @@
 import { Box, Redo } from '@mynaui/icons-react';
 import AnimationBox from './components/animation-box';
+
 import { tm } from '@/utils/tw-merge';
 import { useState } from 'react';
+import StaggerList from './components/stagger-list';
 
 export default function AnimationWithMotionPage() {
   // 화면 업데이트를 위한 상태 선언
@@ -35,6 +37,8 @@ export default function AnimationWithMotionPage() {
         <Redo size={20} />
         RePlay
       </button>
+
+      <StaggerList />
 
       <AnimationBox key={replayKey}>
         <Box size={64} />
