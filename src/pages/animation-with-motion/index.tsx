@@ -2,6 +2,7 @@ import { Box } from '@mynaui/icons-react';
 import AnimationBox from './components/animation-box';
 import StaggerList from './components/stagger-list';
 import ReplayAnimation from './components/replay-animation';
+import DeclarativeAnimation from './components/declarative-animation';
 
 export default function AnimationWithMotionPage() {
   return (
@@ -9,6 +10,10 @@ export default function AnimationWithMotionPage() {
       <h2 className="text-2xl font-medium">
         애니메이션 - Motion 라이브러리 활용
       </h2>
+      <ReplayAnimation>
+        <DeclarativeAnimation />
+      </ReplayAnimation>
+
       <ReplayAnimation>
         <AnimationBox>
           <Box size={64} />
