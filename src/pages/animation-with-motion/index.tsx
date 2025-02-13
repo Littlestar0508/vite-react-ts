@@ -38,9 +38,9 @@ export default function AnimationWithMotionPage() {
         RePlay
       </button>
 
-      <StaggerList />
+      <StaggerList key={replayKey} />
 
-      <AnimationBox key={replayKey}>
+      <AnimationBox>
         <Box size={64} />
       </AnimationBox>
     </section>
