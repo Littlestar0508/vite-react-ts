@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { Ref, useId, useImperativeHandle, useRef, useState } from 'react';
 import { tm } from '@/utils/tw-merge';
 import { deleteQueryParam, setQueryParam } from '../utils/query-params';
 
@@ -11,12 +11,53 @@ const convertQueryString = (queryArray: string[]) =>
 
 interface SearchFormProps {
   query: string;
+  ref?: Ref<{ focus: () => void; select: () => void; remove: () => void }>;
   setQuery: React.Dispatch<React.SetStateAction<string>>;
 }
 
-function SearchForm({ query, setQuery }: SearchFormProps) {
+// --------------------------------------------------------------------------
+
+function SearchForm({ query, ref, setQuery }: SearchFormProps) {
   const [queryString, setQueryString] = useState(getQueryString);
   const searchInputId = useId();
+
+  // 명령형 기능 공유 방식 채택
+  // useImperativeHandle HOOK사용
+  useImperativeHandle(ref, () => {
+    const inputElement = inputRef.current;
+    // 기능 1. inputRef 참조를 통해 <input>에 초점 이동하기
+    const focus = () => {
+      if (inputElement) {
+        inputElement.focus();
+      }
+    };
+
+    // 기능 2. <input> 요소 입력 내용 모두 선택하기
+    const select = () => {
+      if (inputElement) {
+        inputElement.select();
+      }
+    };
+
+    // 기능 3. <input> 요소를 삭제하기
+    const remove = () => {
+      if (inputElement) {
+        inputElement.remove();
+      }
+    };
+
+    // 명령형 핸들러 하나 이상 공유
+    // 하나면 함수
+    // 둘 이상이면 객체
+
+    return {
+      focus,
+      select,
+      remove,
+    };
+  });
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   // [파생된 상태]
   const words = query
@@ -51,14 +92,6 @@ function SearchForm({ query, setQuery }: SearchFormProps) {
     }
   };
 
-  const searchListRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    if (searchListRef.current) {
-      searchListRef.current.focus();
-    }
-  }, []);
-
   return (
     <>
       <output className="bg-react text-white px-4 py-2 rounded-full text-xs font-mono">
@@ -71,7 +104,7 @@ function SearchForm({ query, setQuery }: SearchFormProps) {
         </label>
         <div className={tm('flex gap-1')}>
           <input
-            ref={searchListRef}
+            ref={inputRef}
             type="search"
             name="query"
             id={searchInputId}
