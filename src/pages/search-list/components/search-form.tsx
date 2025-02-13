@@ -18,46 +18,10 @@ interface SearchFormProps {
 // --------------------------------------------------------------------------
 
 function SearchForm({ query, ref, setQuery }: SearchFormProps) {
+  console.log('render: search form');
+
   const [queryString, setQueryString] = useState(getQueryString);
   const searchInputId = useId();
-
-  // 명령형 기능 공유 방식 채택
-  // useImperativeHandle HOOK사용
-  useImperativeHandle(ref, () => {
-    const inputElement = inputRef.current;
-    // 기능 1. inputRef 참조를 통해 <input>에 초점 이동하기
-    const focus = () => {
-      if (inputElement) {
-        inputElement.focus();
-      }
-    };
-
-    // 기능 2. <input> 요소 입력 내용 모두 선택하기
-    const select = () => {
-      if (inputElement) {
-        inputElement.select();
-      }
-    };
-
-    // 기능 3. <input> 요소를 삭제하기
-    const remove = () => {
-      if (inputElement) {
-        inputElement.remove();
-      }
-    };
-
-    // 명령형 핸들러 하나 이상 공유
-    // 하나면 함수
-    // 둘 이상이면 객체
-
-    return {
-      focus,
-      select,
-      remove,
-    };
-  });
-
-  const inputRef = useRef<HTMLInputElement>(null);
 
   // [파생된 상태]
   const words = query
@@ -91,6 +55,45 @@ function SearchForm({ query, ref, setQuery }: SearchFormProps) {
       deleteQueryParam();
     }
   };
+
+  // [명령형 기능(핸들러) 공유 방식 채택]
+  // useImperativeHandle() 훅 함수
+  useImperativeHandle(ref, () => {
+    console.log('use imperative handle: share handles');
+    const inputElement = inputRef.current;
+
+    // 기능 1. inputRef 참조를 통해 <input> 요소에 초점 이동하기
+    const focus /* handleFocus */ = () => {
+      if (inputElement) {
+        inputElement.focus();
+      }
+    };
+
+    // 기능 2. <input> 요소 입력 내용 모두 선택하기
+    const select /* handleSelect */ = () => {
+      if (inputElement) {
+        inputElement.select();
+      }
+    };
+
+    // 기능 3. <input> 요소를 삭제하기
+    const remove /* handleRemove */ = () => {
+      if (inputElement) {
+        inputElement.remove();
+      }
+    };
+
+    // 명령형 핸들러 하나 이상 공유 반환
+    // 하나면 함수
+    // 둘 이상이면 객체
+    return {
+      focus,
+      select,
+      remove,
+    };
+  }, []);
+
+  const inputRef = useRef<HTMLInputElement>(null);
 
   return (
     <>
