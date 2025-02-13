@@ -10,11 +10,17 @@ import SignUpForm from '@/pages/sign-up';
 import NotFound from '@/pages/not-found';
 import AccessDOM from '@/pages/access-dom';
 import AnimationWithMotionPage from '@/pages/animation-with-motion';
+import DataFetchingPage from '@/pages/data-fetching';
 
 // --------------------------------------------------------------------------
 // 내비게이션 리스트 데이터
 
 export const navList = [
+  {
+    path: 'data-fetching',
+    text: '데이터 쿼리/뮤테이션',
+    element: <DataFetchingPage />,
+  },
   {
     path: 'animation',
     text: '애니메이션',
