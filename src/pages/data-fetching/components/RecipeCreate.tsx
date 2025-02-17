@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getRecipes } from '../lib/recipes';
-import { Recipes } from '../types';
+import type { Recipe, Recipes } from '../types';
 import { Spinner } from '@mynaui/icons-react';
+import SubmitButton from './SubmitButton';
 
 const END_POINT = 'https://dummyjson.com/recipes/add';
 
@@ -22,54 +23,62 @@ export default function RecipeCreate() {
     };
   }, []);
 
-  const handleAdded = async (formData: FormData) => {
-    const response = await fetch(END_POINT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        name: formData.get('recipe'),
-      }),
-    });
+  const handleAdd = async (formData: FormData) => {
+    try {
+      const response = await fetch(END_POINT, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.get('recipe'),
+        }),
+      });
 
-    if (!response.ok) {
-      throw new Error('레시피 추가에 실패');
-    }
+      if (!response.ok) {
+        throw new Error('레시피 추가에 실패');
+      }
 
-    const addedRecipe = await response.json();
+      const addedRecipe = await response.json();
 
-    if (data) {
-      const nextData: Recipes = {
-        ...data,
-        recipes: [addedRecipe, ...data.recipes],
-      };
+      if (data) {
+        const nextData: Recipes = {
+          ...data,
+          recipes: [addedRecipe, ...data.recipes],
+        };
 
-      setData(nextData);
+        setData(nextData);
+      }
+    } catch (err) {
+      console.error(err);
     }
   };
 
   return (
     <article>
-      <h4>레시피 리스트</h4>
-      <form action={handleAdded}>
+      <h4 className="text-lg font-medium">레시피 아이템 추가</h4>
+      <form action={handleAdd} className="flex items-center">
         <input
           type="text"
           name="recipe"
+          className="bg-white py-1 px-2 placeholder:text-sm"
           aria-label="레시피"
-          defaultValue=""
-          className="bg-white"
+          placeholder="레시피 이름 입력"
         />
-        <button type="submit" className="px-2 py-1 bg-react text-white">
-          추가
-        </button>
+
+        <SubmitButton />
       </form>
+
       {!data && (
-        <div role="alert" aria-label="로딩 중">
+        <div role="alert" aria-label="로딩 중...">
           <Spinner size={24} className="animate-spin opacity-50" />
         </div>
       )}
-      <ul>
-        {data?.recipes.map((item) => (
-          <li key={item.id} className="p-1 border rounded">
+
+      <ul className="flex flex-col gap-2 my-2">
+        {data?.recipes?.map((item: Recipe) => (
+          <li
+            key={item.id}
+            className="p-2 border-1 border-slate-400 rounded hover:bg-zinc-200/50"
+          >
             {item.name}
           </li>
         ))}
