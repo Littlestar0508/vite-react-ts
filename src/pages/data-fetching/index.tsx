@@ -1,3 +1,4 @@
+import delay from '@/utils/delay';
 import { useEffect, useState } from 'react';
 
 interface ResponseDataType {
@@ -19,29 +20,101 @@ interface ResponseDataType {
   mealType: string[];
 }
 
+interface State {
+  loading: boolean;
+  error: null | Error;
+  data: null;
+}
+
 export default function DataFetchingPage() {
-  // 화면 업데이트를 관리할 상태 두 가지
-  const [data, setData] = useState<null | ResponseDataType>(null);
-  const [error, setError] = useState<null | Error>(null);
+  // 화면 업데이트를 관리할 상태
+  // loading : boolean / status : 'idle' | 'pending' | 'loading' | 'fulfilled' | 'rejected'
+  const [state, setState] = useState<State>({
+    loading: false,
+    error: null,
+    data: null,
+  });
 
-  // 레시피 한 개 가져오기
-  // 서버 (리액트의 외부 시스템)
-  // 이펙트를 사용해 서버에 요청
-  useEffect(() => {
-    // 마운트 이후 1회 요청(반복 필요X)
-    // StricMode에서는 2회 렌더링 하므로 통신 2회 요청
-    // Fetch API or Axios
+  // 이펙트(외부 시스템과 동기화)
+  // API : 서버 데이터베이스에서 데이터 가져오기(비동기)
+  // 데이터 가져오기 이후, 상태 업데이트 요청 -> 화면 업데이트(동기화)
+  useEffect(
+    () => {
+      // 데이터 쿼리(data query)
+      // Fetch API 사용
 
-    fetch('https://dummyjson.com/recipes/1')
-      .then((response) => response.json())
-      .then((data) => setData(data as ResponseDataType))
-      .catch((error) => console.error(error));
-    // Promise<pending | fulfilled | rejected>
-  }, []);
+      // 이펙트 함수 내부에 지역 변수 선언
+      let ignore = false;
+
+      // 로딩 상태로 전환
+      setState((s) => ({ ...s, loading: true }));
+
+      const fetchData = async () => {
+        try {
+          await delay(2000);
+
+          const response = await fetch('https://dummyjson.com/recipes/9');
+          const jsonData = await response.json();
+
+          if (!ignore) {
+            setState({
+              loading: false,
+              data: jsonData,
+              error: null,
+            });
+          }
+        } catch (err) {
+          if (!ignore) {
+            setState({
+              loading: false,
+              data: null,
+              error: err as Error,
+            });
+          }
+        }
+      };
+
+      fetchData();
+
+      // 클린업 함수
+      return () => {
+        // 지역 변수 변경
+        ignore = true;
+      };
+    },
+    // 서버 데이터 요청하는 것은 최초 1회
+    // 종속성 배열을 비워두면 마운트 이후 1회 실행
+    []
+  );
+
+  const { error } = state;
 
   return (
-    <section className="flex flex-col gap-5">
-      <h2 className="text-2xl font-medium">Data Fecthing</h2>
+    <section className="flex flex-col gap-5 my-5">
+      <h2 className="text-2xl font-medium">데이터 가져오기</h2>
+
+      <div className="flex flex-col gap-1">
+        <h3 className="text-xl font-medium">Loading</h3>
+        <p>로딩(loading)</p>
+        <pre className="rounded p-6 overflow-auto bg-react text-[#169d31] text-sm">
+          {state.loading.toString()}
+        </pre>
+      </div>
+      <div className="flex flex-col gap-1">
+        <h3 className="text-xl font-medium">Data</h3>
+        <p>성취(fulfilled)</p>
+        <pre className="rounded p-6 overflow-auto bg-react text-[#27a0cc] text-sm">
+          {JSON.stringify(state.data)}
+        </pre>
+      </div>
+
+      <div className="flex flex-col gap-1">
+        <h3 className="text-xl font-medium">Error</h3>
+        <p>거부(rejected)</p>
+        <pre className="rounded p-6 overflow-auto bg-react text-[#f0439f] text-sm">
+          {error ? error.message : 'ERROR'}
+        </pre>
+      </div>
     </section>
   );
 }
