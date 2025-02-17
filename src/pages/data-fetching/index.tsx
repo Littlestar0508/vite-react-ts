@@ -1,3 +1,6 @@
+import RecipeCreate from './components/RecipeCreate';
+import RecipeDelete from './components/RecipeDelete';
+import RecipeEdit from './components/RecipeEdit';
 import RecipeList from './components/RecipeList';
 import RecipeSingle from './components/RecipeSingle';
 
@@ -7,6 +10,9 @@ export default function DataFetchingPage() {
       <h2 className="text-2xl font-medium">데이터 가져오기</h2>
       <RecipeSingle />
       <RecipeList />
+      <RecipeCreate />
+      <RecipeEdit />
+      <RecipeDelete />
     </section>
   );
 }
