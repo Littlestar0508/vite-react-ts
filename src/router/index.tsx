@@ -11,11 +11,13 @@ import NotFound from '@/pages/not-found';
 import AccessDOM from '@/pages/access-dom';
 import AnimationWithMotionPage from '@/pages/animation-with-motion';
 import DataFetchingPage from '@/pages/data-fetching';
+import MemoListPage from '@/pages/memo-list';
 
 // --------------------------------------------------------------------------
 // 내비게이션 리스트 데이터
 
 export const navList = [
+  { path: 'supabase-memo-app', text: '메모 리스트', element: <MemoListPage /> },
   {
     path: 'data-fetching',
     text: '데이터 쿼리/뮤테이션',
