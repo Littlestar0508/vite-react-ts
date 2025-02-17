@@ -11,6 +11,23 @@ interface Options {
   order?: 'asc' | 'desc';
 }
 
+// CREATE
+export const addRecipe = async (newRecipe: Partial<Recipe>) => {
+  const response = await fetch(`${END_POINT}/add`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(newRecipe),
+  });
+
+  if (!response.ok) {
+    throw new Error('레시피 추가에 실패했습니다. 😭');
+  }
+
+  return (await response.json()) as Recipe;
+};
+
+// READ
+
 export const getRecipes = async ({
   q = '',
   limit = 10,
