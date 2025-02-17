@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { getRecipeById } from '../lib/recipes';
-import { ChevronLeft, ChevronRight } from '@mynaui/icons-react';
+import { ChevronLeft, ChevronRight, SpinnerOne } from '@mynaui/icons-react';
 import { Recipe } from '../types';
+import delay from '@/utils/delay';
 
 interface State<T> {
   loading: boolean;
@@ -31,8 +32,10 @@ export default function RecipeSingle() {
       setState((s) => ({ ...s, loading: true }));
 
       getRecipeById(dataId)
-        .then((recipe) => {
+        .then(async (recipe) => {
           if (!ignore) {
+            await delay(2000);
+
             setState({
               loading: false,
               data: recipe,
@@ -87,11 +90,19 @@ export default function RecipeSingle() {
       </div>
 
       <div className="flex flex-col gap-1">
-        <h3 className="text-xl font-medium">Loading</h3>
+        {/* <h3 className="text-xl font-medium">Loading</h3>
         <p>로딩(loading)</p>
         <pre className="rounded p-6 overflow-auto bg-react text-[#169d31] text-sm">
           {state.loading.toString()}
-        </pre>
+        </pre> */}
+
+        <div className="flex flex-col gap-1">
+          <div role="alert">
+            {state.loading && (
+              <SpinnerOne size={24} className="animate-spin opacity-50" />
+            )}
+          </div>
+        </div>
       </div>
       <div className="flex flex-col gap-1">
         <h3 className="text-xl font-medium">Data</h3>
