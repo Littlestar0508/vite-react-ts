@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import type { PostgrestError } from '@supabase/supabase-js';
 import MemoList from './components/memo-list';
-import { getMemoList } from './lib/memo-list';
-import type { MemoItem } from './types';
+import { getMemoList } from './lib/api';
+import type { MemoItem } from './lib/supabase-client';
 
 function MemoListPage() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -12,7 +12,7 @@ function MemoListPage() {
   useEffect(() => {
     let ignore = false;
 
-    getMemoList()
+    getMemoList({ isAscending: false })
       .then(({ error, data }) => {
         if (error) {
           throw error;
