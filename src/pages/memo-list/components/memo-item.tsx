@@ -19,7 +19,7 @@ export default function MemoItem({ item }: MemoItemProps) {
       key={item.id}
       className="flex flex-col gap-1.5 p-4 bg-react text-white rounded-sm"
     >
-      <h3 className="font-light tracking-wide text-xl text-sky-300">
+      <h3 className="font-medium tracking-wide text-lg text-sky-300">
         {item.title}
       </h3>
       <p className="text-sm text-slate-200 leading-relaxed">{item.content}</p>

@@ -1,8 +1,8 @@
-import { tm } from '@/utils/tw-merge';
 import { addMemoItem } from '../lib/api';
 import type { MemoItemInsert } from '../lib/supabase-client';
-import { SendSolid } from '@mynaui/icons-react';
 import { useId } from 'react';
+import SendButton from './send-button';
+import delay from '@/utils/delay';
 
 export default function CreateForm() {
   const titleId = useId();
@@ -18,6 +18,8 @@ export default function CreateForm() {
       title,
       content,
     } as MemoItemInsert;
+
+    await delay(600);
 
     await addMemoItem(newMemoItem);
   };
@@ -53,18 +55,7 @@ export default function CreateForm() {
             className="bg-react text-white py-1.5 px-2.5 rounded-sm"
           />
         </div>
-        <button
-          type="submit"
-          aria-label="작성"
-          title="작성"
-          className={tm(
-            'cursor-pointer self-start',
-            'p-1 bg-react text-white/50 rounded-sm',
-            'hover:text-sky-300'
-          )}
-        >
-          <SendSolid size={20} />
-        </button>
+        <SendButton />
       </form>
     </section>
   );
