@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import type { PostgrestError } from '@supabase/supabase-js';
 import MemoList from './components/memo-list';
-import { getMemoList } from './lib/api';
+import { getMemoList, subscribe } from './lib/api';
 import type { MemoItem } from './lib/supabase-client';
 import Loading from './components/loading';
 
@@ -31,6 +31,44 @@ function MemoListPage() {
 
     return () => {
       ignore = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    // 리얼타임 데이터베이스 변경을 구독
+    const channel = subscribe((payload) => {
+      console.log(payload);
+
+      // 추가(INSERT), 수정(UPDATE), 삭제(DELETE)
+      switch (payload.eventType) {
+        case 'INSERT': {
+          setData((data) => {
+            const nextData = [...data!, payload.new];
+            return nextData as MemoItem[];
+          });
+          break;
+        }
+        case 'UPDATE': {
+          setData((data) => {
+            const nextData = data?.map((item) =>
+              item.id === payload.new.id ? payload.new : item
+            );
+            return nextData as MemoItem[];
+          });
+          break;
+        }
+        case 'DELETE': {
+          setData((data) => {
+            const nextData = data?.filter((item) => item.id !== payload.old.id);
+            return nextData as MemoItem[];
+          });
+        }
+      }
+    });
+
+    return () => {
+      // 리얼타임 데이터베이스 변경을 구독 취소
+      channel.unsubscribe();
     };
   }, []);
 

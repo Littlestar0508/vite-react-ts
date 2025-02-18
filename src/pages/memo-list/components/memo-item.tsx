@@ -91,7 +91,7 @@ export default function MemoItem({ item }: MemoItemProps) {
         ref={contentRef}
         contentEditable={isEditing}
         suppressContentEditableWarning
-        className="text-sm text-slate-200 leading-relaxed"
+        className="text-sm text-slate-200 leading-relaxed flex-1"
       >
         {item.content}
       </p>

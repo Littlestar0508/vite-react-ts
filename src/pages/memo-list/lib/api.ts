@@ -1,3 +1,4 @@
+import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import { supabase } from './supabase-client';
 import type {
   MemoItem,
@@ -6,6 +7,22 @@ import type {
 } from './supabase-client';
 
 const DATABASE_NAME = 'memo-list';
+
+export const subscribe = (
+  callback: (
+    payload: RealtimePostgresChangesPayload<Record<string, unknown>>
+  ) => void
+) => {
+  // channel.unsubscribe()
+  return supabase
+    .channel(`${DATABASE_NAME}-channel`)
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'memo-list' },
+      callback
+    )
+    .subscribe();
+};
 
 interface QueryOptions {
   columns?: string;
