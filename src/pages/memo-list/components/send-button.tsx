@@ -1,11 +1,11 @@
-import { tm } from '@/utils/tw-merge';
-import { SendSolid } from '@mynaui/icons-react';
 import { useFormStatus } from 'react-dom';
+import { SendSolid } from '@mynaui/icons-react';
+import { tm } from '@/utils/tw-merge';
 import Loading from './loading';
 
-export default function SendButton() {
+function SendButton() {
   const { pending } = useFormStatus();
-  const buttonLabel = pending ? '전송 중...' : '작성';
+  const buttonLabel = pending ? '작성 중...' : '작성';
 
   return (
     <button
@@ -14,11 +14,13 @@ export default function SendButton() {
       title={buttonLabel}
       className={tm(
         'cursor-pointer self-start',
-        'p-1 bg-react text-white/50 rounded-sm',
-        'hover:text-sky-300'
+        'p-1 bg-react text-white/80 rounded-sm',
+        'hover:text-sky-600'
       )}
     >
       {pending ? <Loading /> : <SendSolid size={20} />}
     </button>
   );
 }
+
+export default SendButton;

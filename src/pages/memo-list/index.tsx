@@ -1,11 +1,14 @@
 import { useEffect, useState } from 'react';
 import type { PostgrestError } from '@supabase/supabase-js';
-import MemoList from './components/memo-list';
-import { getMemoList, subscribe } from './lib/api';
 import type { MemoItem } from './lib/supabase-client';
+import MemoList from './components/memo-list';
 import Loading from './components/loading';
+import { getMemoList, subscribe } from './lib/api';
+import useDocumentTitle from '@/hooks/use-document-title';
 
 function MemoListPage() {
+  useDocumentTitle('메모리스트 with Supabase');
+
   const [loading, setLoading] = useState<boolean>(true);
   const [data, setData] = useState<null | MemoItem[]>(null);
   const [error, setError] = useState<null | PostgrestError>(null);
@@ -13,7 +16,7 @@ function MemoListPage() {
   useEffect(() => {
     let ignore = false;
 
-    getMemoList({ isAscending: false })
+    getMemoList()
       .then(({ error, data }) => {
         if (error) {
           throw error;
@@ -50,7 +53,7 @@ function MemoListPage() {
         }
         case 'UPDATE': {
           setData((data) => {
-            const nextData = data?.map((item) =>
+            const nextData = data!.map((item) =>
               item.id === payload.new.id ? payload.new : item
             );
             return nextData as MemoItem[];
@@ -59,8 +62,8 @@ function MemoListPage() {
         }
         case 'DELETE': {
           setData((data) => {
-            const nextData = data?.filter((item) => item.id !== payload.old.id);
-            return nextData as MemoItem[];
+            const nextData = data!.filter((item) => item.id !== payload.old.id);
+            return nextData;
           });
         }
       }
@@ -74,8 +77,8 @@ function MemoListPage() {
 
   return (
     <section>
-      <h1 className="sr-only">메모 리스트</h1>
-      {loading && <Loading size={24} />}
+      <h1 className="sr-only">메모 리스트 (with Supabase)</h1>
+      {loading && <Loading />}
       {error && <div role="alert">{error.message}</div>}
       {data && <MemoList items={data} />}
     </section>

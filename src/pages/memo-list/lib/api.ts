@@ -1,5 +1,5 @@
-import { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import { supabase } from './supabase-client';
+import type { RealtimePostgresChangesPayload } from '@supabase/supabase-js';
 import type {
   MemoItem,
   MemoItemInsert,
@@ -8,46 +8,31 @@ import type {
 
 const DATABASE_NAME = 'memo-list';
 
-export const subscribe = (
-  callback: (
-    payload: RealtimePostgresChangesPayload<Record<string, unknown>>
-  ) => void
-) => {
-  // channel.unsubscribe()
-  return supabase
-    .channel(`${DATABASE_NAME}-channel`)
-    .on(
-      'postgres_changes',
-      { event: '*', schema: 'public', table: 'memo-list' },
-      callback
-    )
-    .subscribe();
-};
-
 interface QueryOptions {
-  columns?: string;
+  fields?: string;
   page?: number;
   perPage?: number;
   orderKey?: keyof MemoItem;
-  isAscending?: boolean;
+  sortKey?: 'asc' | 'desc';
 }
 
 export const getMemoList = async ({
   // 필드 필터링
-  columns = '*',
-  // pagination
+  fields = '*',
+  // 페이지네이션
   page = 0,
   perPage = 10,
   // 정렬
   orderKey = 'created_at',
-  isAscending = false,
+  sortKey = 'asc',
 }: QueryOptions = {}) => {
   const fromIndex = page > 0 ? page + perPage - 1 : 0;
   const toIndex = perPage > 1 ? page + perPage - 1 : fromIndex;
+  const isAscending = sortKey.includes('asc');
 
   return await supabase
     .from(DATABASE_NAME)
-    .select(columns)
+    .select(fields)
     .range(fromIndex, toIndex)
     .order(orderKey, { ascending: isAscending })
     .returns<MemoItem[]>();
@@ -79,4 +64,19 @@ export const editMemoItem = async (updateMemoItem: MemoItemUpdate) => {
 
 export const deleteMemoItem = async (deleteItemId: MemoItem['id']) => {
   return await supabase.from(DATABASE_NAME).delete().eq('id', deleteItemId);
+};
+
+export const subscribe = (
+  callback: (
+    payload: RealtimePostgresChangesPayload<Record<string, unknown>>
+  ) => void
+) => {
+  return supabase
+    .channel(`${DATABASE_NAME}-channel`)
+    .on(
+      'postgres_changes',
+      { event: '*', schema: 'public', table: 'memo-list' },
+      callback
+    )
+    .subscribe();
 };

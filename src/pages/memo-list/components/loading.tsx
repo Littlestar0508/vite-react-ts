@@ -7,7 +7,7 @@ interface LoadingProps {
   className?: string;
 }
 
-export default function Loading({
+function Loading({
   size = 24,
   label = '로딩 중...',
   className,
@@ -16,9 +16,11 @@ export default function Loading({
   return (
     <Spinner
       size={size}
-      aira-label={label}
+      aria-label={label}
       className={tm('animate-spin opacity-75', className)}
       {...restProps}
     />
   );
 }
+
+export default Loading;

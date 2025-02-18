@@ -8,7 +8,7 @@ export const supabase = createClient<Database>(
   VITE_SUPABASE_ANON_KEY
 );
 
-// Database 타입을 통해 메모 아이템 타입 추출
+// Database 타입을 통해 메모 아이템 타입 추출 방법
 // export type MemoItem = Database['public']['Tables']['memo-list']['Row'];
 
 // 단축된 방법 (별도 제공)
