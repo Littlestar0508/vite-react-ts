@@ -1,8 +1,8 @@
+import { useState } from 'react';
 import { tm } from '@/utils/tw-merge';
 import { Redo } from '@mynaui/icons-react';
-import { useState } from 'react';
 
-export default function ReplayAnimation({
+function ReplayAnimation({
   children,
   className,
   ...restProps
@@ -12,6 +12,7 @@ export default function ReplayAnimation({
   const handleReplay = () => {
     setReplayKey((r) => r + 1);
   };
+
   return (
     <div
       key={replayKey}
@@ -25,14 +26,16 @@ export default function ReplayAnimation({
           'cursor-pointer',
           'flex items-center gap-1.5 px-3.5 py-2 rounded-lg',
           'bg-react text-white text-sm font-semibold uppercase',
-          '*:hover:animate-spin *:duration-100',
+          'hover:*:rotate-360 hover:*:duration-500 hover:*:transition-all',
           'active:scale-95'
         )}
       >
-        <Redo size={20} />
-        RePlay
+        <Redo size={18} />
+        Replay
       </button>
       {children}
     </div>
   );
 }
+
+export default ReplayAnimation;

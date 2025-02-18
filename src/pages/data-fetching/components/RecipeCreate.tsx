@@ -1,16 +1,17 @@
+import delay from '@/utils/delay';
+import { PlusSolid, Spinner } from '@mynaui/icons-react';
 import { useEffect, useState } from 'react';
 import { addRecipe, getRecipes } from '../lib/recipes';
 import type { Recipe, Recipes } from '../types';
-import { PlusSolid, Spinner } from '@mynaui/icons-react';
 import SubmitButton from './SubmitButton';
 
-export default function RecipeCreate() {
+function RecipeCreate() {
   const [data, setData] = useState<null | Recipes>(null);
 
   useEffect(() => {
     let ignore = false;
 
-    getRecipes({ skip: 1, limit: 3 }).then((data) => {
+    getRecipes({ startIndex: 1, limit: 3 }).then((data) => {
       if (!ignore) {
         setData(data);
       }
@@ -21,8 +22,11 @@ export default function RecipeCreate() {
     };
   }, []);
 
+  // 레시피 추가 요청
   const handleAdd = async (formData: FormData) => {
-    // <form>내부 데이터 가져오기
+    await delay();
+
+    // <form> 내부 데이터 가져오기
     const newRecipeName = formData.get('recipe') as string;
 
     // 서버에 데이터 추가 요청
@@ -50,9 +54,8 @@ export default function RecipeCreate() {
           name="recipe"
           className="bg-white py-1 px-2 placeholder:text-sm"
           aria-label="레시피"
-          placeholder="레시피 이름 입력"
+          placeholder="추가할 레시피 이름"
         />
-
         <SubmitButton label="추가">
           <PlusSolid size={24} />
         </SubmitButton>
@@ -77,3 +80,5 @@ export default function RecipeCreate() {
     </article>
   );
 }
+
+export default RecipeCreate;

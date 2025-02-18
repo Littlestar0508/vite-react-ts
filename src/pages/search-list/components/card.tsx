@@ -1,15 +1,15 @@
 import { tm } from '@/utils/tw-merge';
-import { Heart, HeartSolid } from '@mynaui/icons-react';
 import { ColorMoodItem } from '../types';
 import generateGradient from '../utils/generate-gradient';
+import { Heart, HeartSolid } from '@mynaui/icons-react';
 
 interface CardProps {
   item: ColorMoodItem;
   onUpdate: (item: ColorMoodItem, isFavorited: boolean) => void;
 }
 
-export default function Card({ item, onUpdate }: CardProps) {
-  // 파생된 상태 from Props
+function Card({ item, onUpdate }: CardProps) {
+  // [파생된 상태] from Props
   const isFavorited = item.isFavorited;
 
   const handleChangeFavorite = () => {
@@ -22,15 +22,15 @@ export default function Card({ item, onUpdate }: CardProps) {
     console.log(slug);
   };
 
+  const iconSize = 48;
   const slug = `/color-mood/${item.id}`;
-  const iconSize = 36;
   const buttonLabel = `즐겨찾기 ${isFavorited ? '제거' : '추가'}`;
   const gradientStyles = { background: generateGradient(item.id) };
   const Icon = isFavorited ? HeartSolid : Heart;
+
   return (
-    <li className={tm('flex flex-col items-center gap-4')}>
+    <li className={tm('flex flex-col items-center gap-3')}>
       <figure
-        role="presentation"
         className={tm('size-32 rounded-full', 'relative')}
         style={gradientStyles}
       >
@@ -41,8 +41,8 @@ export default function Card({ item, onUpdate }: CardProps) {
           onClick={handleChangeFavorite}
           className={tm(
             'cursor-pointer',
-            'rounded-full',
-            'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'
+            'absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2',
+            'rounded-full '
           )}
         >
           <Icon size={iconSize} />
@@ -59,3 +59,5 @@ export default function Card({ item, onUpdate }: CardProps) {
     </li>
   );
 }
+
+export default Card;

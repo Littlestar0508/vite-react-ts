@@ -1,5 +1,38 @@
-import { useEffect, useRef } from 'react';
-import VanillaTilt, { TiltOptions } from 'vanilla-tilt';
+import { tm } from '@/utils/tw-merge';
+import React, { useEffect, useRef } from 'react';
+import VanillaTilt, { type TiltOptions } from 'vanilla-tilt';
+
+function TiltBox({ className, ...props }: React.ComponentProps<'div'>) {
+  const boxRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const boxElement = boxRef.current;
+    if (boxElement) {
+      VanillaTilt.init(boxElement, {
+        ...VANILLA_TILT_OPTIONS,
+        glare: true,
+        'max-glare': 0.55,
+      });
+    }
+  }, []);
+
+  return (
+    <div
+      ref={boxRef}
+      className={tm(
+        'grid place-items-center size-40',
+        'bg-zinc-900 text-zinc-50 text-5xl font-thin',
+        'hover:z-50',
+        className
+      )}
+      {...props}
+    />
+  );
+}
+
+export default TiltBox;
+
+// --------------------------------------------------------------------------
 
 const VANILLA_TILT_OPTIONS: TiltOptions = {
   // 기울이는 방향을 반대로 변경
@@ -27,9 +60,9 @@ const VANILLA_TILT_OPTIONS: TiltOptions = {
   // Enter/Exit 시 사용되는 이징 함수
   easing: 'cubic-bezier(.03,.98,.52,.99)',
   // "글레어(섬광)" 효과 설정
-  glare: true,
+  glare: false,
   // 최대 "글레이" 불투명도 설정 (1 = 100%, 0.5 = 50%)
-  'max-glare': 1,
+  'max-glare': 0.65,
   // false = VanillaTilt가 글레어 요소를 생성함
   // true = .js-tilt-glare > .js-tilt-glare-inner를 사용자가 직접 추가해야 함.
   'glare-prerender': false,
@@ -46,25 +79,3 @@ const VANILLA_TILT_OPTIONS: TiltOptions = {
   // 장치 Y축 각도 상한(top limit) → 이 각도로 회전된 장치는 마치 마우스가 요소의 아래쪽 테두리에 있는 것처럼 요소를 기울임
   gyroscopeMaxAngleY: 45,
 };
-
-function TiltBox(props: React.ComponentProps<'div'>) {
-  const boxRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const boxElement = boxRef.current;
-    if (boxElement) {
-      VanillaTilt.init(boxElement, VANILLA_TILT_OPTIONS);
-    }
-  }, []);
-
-  // 마크업(markup) 생성
-  return (
-    <div
-      ref={boxRef}
-      className="size-40 bg-zinc-900 text-zinc-50 text-5xl font-thin grid place-items-center hover:z-50"
-      {...props}
-    ></div>
-  );
-}
-
-export default TiltBox;

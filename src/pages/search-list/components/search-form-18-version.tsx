@@ -7,7 +7,7 @@ import {
   useState,
 } from 'react';
 import { tm } from '@/utils/tw-merge';
-import { deleteQueryParam, setQueryParam } from '../utils/query-params';
+import { deleteQueryParam, setQueryParam } from '../utils/query-param';
 
 // 브라우저에서 쿼리 스트링(문자값) 디코딩하여 가져오는 함수
 const getQueryString = () => decodeURIComponent(location.search);

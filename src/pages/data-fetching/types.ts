@@ -1,3 +1,10 @@
+export interface Recipes {
+  recipes: Recipe[];
+  total: number;
+  skip: number;
+  limit: number;
+}
+
 export interface Recipe {
   id: number;
   name: string;
@@ -6,7 +13,7 @@ export interface Recipe {
   prepTimeMinutes: number;
   cookTimeMinutes: number;
   servings: number;
-  difficulty: string;
+  difficulty: Difficulty;
   cuisine: string;
   caloriesPerServing: number;
   tags: string[];
@@ -17,14 +24,7 @@ export interface Recipe {
   mealType: string[];
 }
 
-export interface Recipes {
-  recipes: Recipe[];
-  total: number;
-  skip: number;
-  limit: number;
-}
-
-export enum Difficulty {
+export const enum Difficulty {
   Easy = 'Easy',
   Medium = 'Medium',
 }

@@ -1,6 +1,6 @@
 import { tm } from '@/utils/tw-merge';
 import { getView, resetActiveFocus, setView } from '@/router/manage-view';
-import { deleteQueryParam } from '@/pages/search-list/utils/query-params';
+import { deleteQueryParam } from '@/pages/search-list/utils/query-param';
 
 type WithoutHref = Omit<React.ComponentProps<'a'>, 'href'>;
 type OnChangeRoute = React.Dispatch<React.SetStateAction<string>>;

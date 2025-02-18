@@ -3,7 +3,7 @@ const generateGradient = (hexDoubleCode: string) => {
   const toColor = `#${hexDoubleCode.slice(6)}`;
   const degree = hexDoubleCode.charCodeAt(0) % 360;
 
-  return `linear-gradient(${degree}deg , ${fromColor} , ${toColor})`; // CSS Linear Gradient
+  return `linear-gradient(${degree}deg, ${fromColor}, ${toColor})`;
 };
 
 export default generateGradient;

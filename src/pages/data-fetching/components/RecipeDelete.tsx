@@ -6,16 +6,16 @@ import { deleteRecipe, getRecipes } from '../lib/recipes';
 import type { Recipe, Recipes } from '../types';
 import SubmitButton from './SubmitButton';
 
-export default function RecipeDelete() {
+function RecipeDelete() {
   const [data, setData] = useState<null | Recipes>(null);
 
-  const skip = 9;
+  const startIndex = 9;
   const limit = 4;
 
   useEffect(() => {
     let ignore = false;
 
-    getRecipes({ skip, limit }).then((data) => {
+    getRecipes({ startIndex, limit }).then((data) => {
       if (!ignore) {
         setData(data);
       }
@@ -92,3 +92,5 @@ export default function RecipeDelete() {
     </article>
   );
 }
+
+export default RecipeDelete;

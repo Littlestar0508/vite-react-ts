@@ -1,8 +1,8 @@
-import { tm } from '@/utils/tw-merge';
 import { animate, stagger } from 'motion';
+import { tm } from '@/utils/tw-merge';
 import { useEffect, useRef } from 'react';
 
-export default function StaggerList() {
+function StaggerList() {
   const listRef = useRef<HTMLUListElement>(null);
 
   useEffect(() => {
@@ -14,31 +14,34 @@ export default function StaggerList() {
       animate(
         listItems,
         {
-          y: [100, -20, 0],
-          opacity: [0, 1],
+          y: [100, -50, 25, 5, 0],
+          opacity: [0, 0.5, 1, 0.5, 1],
         },
-        {
-          delay: stagger(0.05),
-        }
+
+        { delay: stagger(0.2) }
       );
     }
   }, []);
 
   return (
-    <ul className="flex gap-5" ref={listRef}>
-      {Array(4)
+    <ul ref={listRef} className="flex gap-2.5">
+      {Array(6)
         .fill(null)
-        .map((_, index) => (
-          <li
-            key={index}
-            className={tm(
-              'flex justify-center items-center size-16 rounded-lg',
-              'size-10 bg-react text-white text-lg font-medium'
-            )}
-          >
-            {index + 1}
-          </li>
-        ))}
+        .map((_, index) => {
+          return (
+            <li
+              key={index}
+              className={tm(
+                'flex justify-center items-center size-16 rounded-lg',
+                'bg-react text-white text-lg font-medium'
+              )}
+            >
+              {index + 1}
+            </li>
+          );
+        })}
     </ul>
   );
 }
+
+export default StaggerList;

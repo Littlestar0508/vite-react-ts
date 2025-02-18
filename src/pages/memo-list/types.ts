@@ -3,5 +3,5 @@ export interface MemoItem {
   title: string;
   content: string;
   create_at: Date;
-  updated_at: Date;
+  update_at: Date;
 }

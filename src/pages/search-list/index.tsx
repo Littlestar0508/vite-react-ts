@@ -21,7 +21,7 @@ useImperativeHandle
 
 import { useEffect, useRef, useState } from 'react';
 import { tm } from '@/utils/tw-merge';
-import { getQueryParam } from './utils/query-params';
+import { getQueryParam } from './utils/query-param';
 import SearchedList from './components/searched-list';
 import SearchForm from './components/search-form-18-version';
 import colorMoodList from './data/color-mood-list';

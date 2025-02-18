@@ -1,49 +1,24 @@
 import type { Recipes, Recipe } from '../types';
 
-const END_POINT = 'https://dummyjson.com/recipes';
+const ENDPOINT = 'https://dummyjson.com/recipes';
 
-interface Options {
+interface QueryOptions {
+  // 검색
   q?: string;
-  limit?: number;
-  skip?: number;
+  // 필터링
   fields?: string;
-  sortBy?: string;
+  // 페이지네이션
+  limit?: number;
+  startIndex?: number;
+  // 정렬
+  sortBy?: keyof Recipe;
   order?: 'asc' | 'desc';
 }
 
-// Delete
-export const deleteRecipe = async (deleteRecipeId: number) => {
-  const response = await fetch(`${END_POINT}/${deleteRecipeId}`, {
-    method: 'DELETE',
-  });
+// CREATE -------------------------------------------------------
 
-  if (!response.ok) {
-    throw new Error('레시피 삭제에 실패했습니다. 🥲');
-  }
-
-  return (await response.json()) as Recipe;
-};
-
-// Update
-export const editRecipe = async (editRecipe: Partial<Recipe>) => {
-  const { id, ...recipe } = editRecipe;
-
-  const response = await fetch(`${END_POINT}/${id}`, {
-    method: 'PUT' /* or PATCH */,
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(recipe),
-  });
-
-  if (!response.ok) {
-    throw new Error('레시피 추가에 실패했습니다. 😭');
-  }
-
-  return (await response.json()) as Recipe;
-};
-
-// CREATE
 export const addRecipe = async (newRecipe: Partial<Recipe>) => {
-  const response = await fetch(`${END_POINT}/add`, {
+  const response = await fetch(`${ENDPOINT}/add`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(newRecipe),
@@ -56,17 +31,17 @@ export const addRecipe = async (newRecipe: Partial<Recipe>) => {
   return (await response.json()) as Recipe;
 };
 
-// READ
+// READ ---------------------------------------------------------
 
 export const getRecipes = async ({
   q = '',
   limit = 10,
-  skip = -1,
+  startIndex = 0,
   fields = '',
   sortBy = 'id',
   order = 'asc',
-}: Options) => {
-  let requestQuery = `${END_POINT}/`;
+}: QueryOptions = {}) => {
+  let requestQuery = `${ENDPOINT}/`;
 
   if (q.trim().length > 0) {
     requestQuery += `search/?q=${q}`;
@@ -78,8 +53,8 @@ export const getRecipes = async ({
       : `?limit=${limit}`;
   }
 
-  if (skip) {
-    requestQuery += `&skip=${skip - 1}`;
+  if (startIndex) {
+    requestQuery += `&skip=${startIndex - 1}`;
   }
 
   if (fields.trim().length > 0) {
@@ -100,7 +75,39 @@ export const getRecipes = async ({
 };
 
 export const getRecipeById = async (id: string | number) => {
-  return (await fetch(`${END_POINT}/${id}`).then((response) =>
+  return (await fetch(`${ENDPOINT}/${id}`).then((response) =>
     response.json()
   )) as Recipe;
+};
+
+// UPDATE -------------------------------------------------------
+
+export const editRecipe = async (editRecipe: Partial<Recipe>) => {
+  const { id, ...recipe } = editRecipe;
+
+  const response = await fetch(`${ENDPOINT}/${id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(recipe),
+  });
+
+  if (!response.ok) {
+    throw new Error('레시피 수정에 실패했습니다. 🥲');
+  }
+
+  return (await response.json()) as Recipe;
+};
+
+// DELETE -------------------------------------------------------
+
+export const deleteRecipe = async (deleteRecipeId: number) => {
+  const response = await fetch(`${ENDPOINT}/${deleteRecipeId}`, {
+    method: 'DELETE',
+  });
+
+  if (!response.ok) {
+    throw new Error('레시피 삭제에 실패했습니다. 🥲');
+  }
+
+  return (await response.json()) as Recipe;
 };

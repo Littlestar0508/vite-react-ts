@@ -6,17 +6,17 @@ import type { Recipe, Recipes } from '../types';
 import SubmitButton from './SubmitButton';
 import { tm } from '@/utils/tw-merge';
 
-export default function RecipeEdit() {
+function RecipeEdit() {
   const [data, setData] = useState<null | Recipes>(null);
 
-  const skip = 3;
+  const startIndex = 3;
   const limit = 5;
   const randomIndex = Math.floor(Math.random() * limit);
 
   useEffect(() => {
     let ignore = false;
 
-    getRecipes({ skip, limit }).then((data) => {
+    getRecipes({ startIndex, limit }).then((data) => {
       if (!ignore) {
         setData(data);
       }
@@ -27,7 +27,7 @@ export default function RecipeEdit() {
     };
   }, []);
 
-  // 레시피 추가 요청
+  // 레시피 수정 요청
   const handleEdit = async (formData: FormData) => {
     await delay();
 
@@ -71,7 +71,7 @@ export default function RecipeEdit() {
           name="recipe"
           className="bg-white py-1 px-2 placeholder:text-sm"
           aria-label="레시피"
-          placeholder="레시피 이름 입력"
+          placeholder="수정할 레시피 이름"
         />
         <SubmitButton label="수정">
           <Edit size={24} />
@@ -102,3 +102,5 @@ export default function RecipeEdit() {
     </article>
   );
 }
+
+export default RecipeEdit;

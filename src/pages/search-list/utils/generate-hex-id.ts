@@ -1,4 +1,4 @@
-import getRandom from './get-random';
+import getRandom from './getRandom';
 
 const hexChar = '0123456789abcdef';
 

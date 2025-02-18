@@ -1,5 +1,5 @@
-import type { MemoItem } from '../types';
 import { supabase } from './supabase-client';
+import type { MemoItem } from '../types';
 
 const DATABASE_NAME = 'memo-list';
 
@@ -13,7 +13,7 @@ export const getMemoList = async ({
   columns = '*',
   from = 0,
   to = 10,
-}: QueryOptions) => {
+}: QueryOptions = {}) => {
   return await supabase
     .from(DATABASE_NAME)
     .select(columns)
@@ -25,6 +25,6 @@ export const getMemoItemById = async (id: MemoItem['id']) => {
   return await supabase
     .from(DATABASE_NAME)
     .select('*')
-    .eq(`id`, id)
+    .eq('id', id)
     .returns<MemoItem[]>();
 };
