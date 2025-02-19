@@ -7,14 +7,16 @@ function PokemonWithUseQuery() {
   // 포켓몬 개별 정보 가져오기
   // 'https://pokeapi.co/api/v2/pokemon/1'
 
+  const pokemonQueryOptions = {
+    queryKey: '@pokemon/pikachu',
+    queryFn: () => fetch('https://pokeapi.co/api/v2/pokemon/25'),
+  };
+
   const {
     isLoading: loading,
     error,
     data,
-  } = useQuery<Pokemon>({
-    queryKey: '@pokemon/pikachu',
-    queryFn: () => fetch('https://pokeapi.co/api/v2/pokemon/25'),
-  });
+  } = useQuery<Pokemon>(pokemonQueryOptions);
 
   return (
     <figure
