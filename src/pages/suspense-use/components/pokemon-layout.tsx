@@ -1,11 +1,11 @@
 import { tm } from '@/utils/tw-merge';
 
-export default function PokemonLayout({
+function PokemonLayout({
   children,
   className,
 }: {
-  children: React.ReactNode;
   className?: string;
+  children: React.ReactNode;
 }) {
   return (
     <figure
@@ -21,3 +21,5 @@ export default function PokemonLayout({
     </figure>
   );
 }
+
+export default PokemonLayout;

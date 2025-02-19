@@ -1,3 +1,4 @@
+// import { useState } from 'react';
 import usePersist from '@/hooks/use-persist';
 import { tm } from '@/utils/tw-merge';
 import Board from './components/board';
@@ -11,8 +12,10 @@ import {
 } from './constants';
 import Title from '@/components/title';
 
-function TicTacToe() {
+function TicTacToeWithContext() {
   // [상태]
+  // 게임 보드 셀(cells, 9개(3 x 3))
+  // const [gameHistory, setGameHistory] = useState<Cells[]>([INITIAL_CELLS]);
   const { data: gameHistory, setData: setGameHistory } = usePersist<Cells[]>(
     '@tic-tac-toe/game-history',
     [INITIAL_CELLS],
@@ -20,6 +23,8 @@ function TicTacToe() {
   );
 
   // [상태]
+  // 게임 순서(order)
+  // const [gameOrder, setGameOrder] = useState<number>(0);
   const { data: gameOrder, setData: setGameOrder } = usePersist(
     '@tic-tac-toe/game-order',
     0,
@@ -105,4 +110,4 @@ function TicTacToe() {
   );
 }
 
-export default TicTacToe;
+export default TicTacToeWithContext;

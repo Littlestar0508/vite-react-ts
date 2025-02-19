@@ -18,7 +18,7 @@ function Pokemon({ id }: PokemonProps) {
         loading="lazy"
         className="size-28"
       />
-      <figcaption className="text-sm text-stone-700 uppercaer -translate-y-1">
+      <figcaption className="text-sm text-stone-700 uppercase -translate-y-1">
         {pokemon.name}
       </figcaption>
     </PokemonLayout>

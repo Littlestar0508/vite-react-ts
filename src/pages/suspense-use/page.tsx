@@ -1,9 +1,9 @@
-import Title from '@/components/title';
-import { Suspense, useState } from 'react';
+import { useState, Suspense } from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
 import Pokemon from './components/pokemon';
+import Title from '@/components/title';
 import PokemonSpinner from './components/pokemon-spinner';
 import PokemonError from './components/pokemon-error';
-import { ErrorBoundary } from 'react-error-boundary';
 
 const POKEMON_ITEMS = {
   min: 1,
@@ -11,17 +11,17 @@ const POKEMON_ITEMS = {
 };
 
 function SuspenseUsePage() {
-  // 1~1302
   const [pokemonId, setPokemonId] = useState(1);
 
   const handlePrev = () => {
     setPokemonId((pokemonId) => {
-      const prevPokemonId = pokemonId - 1;
-      return prevPokemonId < POKEMON_ITEMS.min
+      const nextPokemonId = pokemonId - 1;
+      return nextPokemonId < POKEMON_ITEMS.min
         ? POKEMON_ITEMS.min
-        : prevPokemonId;
+        : nextPokemonId;
     });
   };
+
   const handleNext = () => {
     setPokemonId((pokemonId) => {
       const nextPokemonId = pokemonId + 1;
@@ -51,7 +51,7 @@ function SuspenseUsePage() {
             onClick={handleNext}
             className="cursor-pointer uppercase py-2 px-4 bg-react text-white"
           >
-            Next
+            next
           </button>
           <output className="px-4 font-extralight text-3xl">{pokemonId}</output>
         </div>

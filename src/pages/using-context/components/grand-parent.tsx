@@ -1,9 +1,11 @@
 import Parent from './parent';
 
-export default function GrandParent() {
+function GrandParent() {
   return (
-    <div className="p-5 border-4 rounded-full flex justify-center">
+    <div className="flex-1 p-5 border-4 rounded-full flex justify-center">
       <Parent />
     </div>
   );
 }
+
+export default GrandParent;

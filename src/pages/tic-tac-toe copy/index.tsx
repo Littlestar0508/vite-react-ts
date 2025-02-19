@@ -1,4 +1,4 @@
-import usePersist from '@/hooks/use-persist';
+import { useState } from 'react';
 import { tm } from '@/utils/tw-merge';
 import Board from './components/board';
 import History from './components/history';
@@ -9,30 +9,26 @@ import {
   INITIAL_CELLS,
   type Cells,
 } from './constants';
-import Title from '@/components/title';
+import useDocumentTitle from '@/hooks/use-document-title';
 
 function TicTacToe() {
-  // [상태]
-  const { data: gameHistory, setData: setGameHistory } = usePersist<Cells[]>(
-    '@tic-tac-toe/game-history',
-    [INITIAL_CELLS],
-    { changeOnSave: true }
-  );
+  useDocumentTitle('틱택토 게임 (with 시간여행 기능)');
 
   // [상태]
-  const { data: gameOrder, setData: setGameOrder } = usePersist(
-    '@tic-tac-toe/game-order',
-    0,
-    { changeOnSave: true }
-  );
+  // 게임 보드 셀(cells, 9개(3 x 3))
+  const [gameHistory, setGameHistory] = useState<Cells[]>([INITIAL_CELLS]);
+
+  // [상태]
+  // 게임 순서(order)
+  const [gameOrder, setGameOrder] = useState<number>(0);
 
   // [파생된 상태]
   // 현재 게임 보드판
-  const currentCells = gameHistory![gameOrder!];
+  const currentCells = gameHistory[gameOrder];
 
   // [파생된 상태]
   // 다음 플레이어
-  const nextPlayer = getNextPlayer(gameOrder!);
+  const nextPlayer = getNextPlayer(gameOrder);
 
   // [파생된 상태]
   // 게임 승자 정보
@@ -53,7 +49,7 @@ function TicTacToe() {
     }
 
     // 게임 상태 업데이트 (순서)
-    const nextGameOrder = gameOrder! + 1;
+    const nextGameOrder = gameOrder + 1;
     setGameOrder(nextGameOrder);
 
     // 게임 상태 업데이트 (게임 보드 셀)
@@ -61,10 +57,7 @@ function TicTacToe() {
       index !== i ? cell : nextPlayer
     );
 
-    const nextGameHistory = [
-      ...gameHistory!.slice(0, nextGameOrder),
-      nextCells,
-    ];
+    const nextGameHistory = [...gameHistory.slice(0, nextGameOrder), nextCells];
 
     setGameHistory(nextGameHistory);
   };
@@ -84,24 +77,21 @@ function TicTacToe() {
   };
 
   return (
-    <>
-      <Title>틱택토 게임 (with 시간여행 기능)</Title>
-      <article className={tm('flex space-x-5 justify-center', 'mt-10')}>
-        <h2 className="sr-only">틱택토 게임</h2>
-        <Board
-          cells={currentCells}
-          winner={winner}
-          statusMessage={statusMessage}
-          onPlayGame={handlePlayGame}
-          onReGame={handleReGame}
-        />
-        <History
-          count={gameHistory!.length}
-          gameOrder={gameOrder!}
-          onTimeTravel={handleTimeTravel}
-        />
-      </article>
-    </>
+    <article className={tm('flex space-x-5 justify-center', 'mt-10')}>
+      <h2 className="sr-only">틱택토 게임</h2>
+      <Board
+        cells={currentCells}
+        winner={winner}
+        statusMessage={statusMessage}
+        onPlayGame={handlePlayGame}
+        onReGame={handleReGame}
+      />
+      <History
+        count={gameHistory.length}
+        gameOrder={gameOrder}
+        onTimeTravel={handleTimeTravel}
+      />
+    </article>
   );
 }
 

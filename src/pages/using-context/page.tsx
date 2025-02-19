@@ -12,29 +12,34 @@ interface GreetingContextValue {
 export const GreetingContext = createContext<GreetingContextValue>({
   message: '',
   setMessage() {
-    console.log('init');
+    console.log('초기 함수');
   },
 });
 
-// 컨텍스트 프로바이더(공급자) => 값 공급
-// 컨텍스트 컨슈머(수요자) <= 공급된 값을 소비 (사용 권장 X : 구형)
-// 컨텍스트 공급된 값 = useContext(컨텍스트) (신형)
-// context === context.provider
+// 컨텍스트.프로바이더(공급자) => 값 공급
+// 컨텍스트.컨서머(수요자) <== 공급된 값을 수요 (사용 권장 안함: 오래된 예전 방식)
+// 컨텍스트 공급된 값 = useContext(컨텍스트)
+// 컨텍스트 === 컨텍스트.프로바이더 (동일한 객체 참조)
 
-export default function UsingContextPage() {
-  const [message, setMessage] = useState('hello Grand Parent');
+function UsingContextPage() {
+  // 페이지 컴포넌트 상태
+  // 상태 공유의 고민 거리...
+  // Prop Drilling
+  const [message, setMessage] = useState('안녕! Grand Parent');
 
+  // 고민 거리 해결!!!
+  // Context (value providing)
   const value = { message, setMessage };
 
   return (
     <>
       <Title>컨텍스트를 사용한 상태 공유</Title>
       <section className="flex flex-col gap-5">
-        <GreetingContext value={value}>
-          <h2 className="text-2xl font-medium">컨텍스트 활용(상태 공유)</h2>
-          <h2 className="text-xl font-medium">컨텍스트 범위</h2>
+        <GreetingContext.Provider value={value}>
+          <h2 className="text-2xl font-medium">컨텍스트 활용</h2>
+          <h3 className="text-xl font-medium">컨텍스트 범위</h3>
           <GrandParent />
-        </GreetingContext>
+        </GreetingContext.Provider>
         <hr />
         <h3 className="text-xl font-medium">컨텍스트 외부</h3>
         <AnotherParent />
@@ -42,3 +47,5 @@ export default function UsingContextPage() {
     </>
   );
 }
+
+export default UsingContextPage;

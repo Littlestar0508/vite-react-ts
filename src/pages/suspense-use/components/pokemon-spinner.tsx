@@ -1,7 +1,7 @@
 import Loading from '@/components/loading';
 import PokemonLayout from './pokemon-layout';
 
-export default function PokemonSpinner() {
+function PokemonSpinner() {
   return (
     <PokemonLayout>
       <Loading
@@ -12,3 +12,5 @@ export default function PokemonSpinner() {
     </PokemonLayout>
   );
 }
+
+export default PokemonSpinner;
