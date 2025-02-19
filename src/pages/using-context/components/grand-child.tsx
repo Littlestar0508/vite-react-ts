@@ -1,9 +1,13 @@
-interface Props {
-  message: string;
-  setMessage: React.Dispatch<React.SetStateAction<string>>;
-}
+import { useState } from 'react';
 
-export default function GrandChild({ message, setMessage }: Props) {
+export default function GrandChild() {
+  const [message, setMessage] = useState('hello Grand Parent');
+
+  // const message = '안녕!';
+  // const setMessage = (message: string) => {
+  //   console.log(message);
+  // };
+
   return (
     <div className="flex-1 flex flex-col gap-3 p-5 border-4 rounded-full justify-center text-center">
       {message}
