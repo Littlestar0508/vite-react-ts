@@ -76,12 +76,17 @@ function MemoListPage() {
   }, []);
 
   return (
-    <section>
-      <h1 className="sr-only">메모 리스트 (with Supabase)</h1>
-      {loading && <Loading />}
-      {error && <div role="alert">{error.message}</div>}
-      {data && <MemoList items={data} />}
-    </section>
+    <>
+      {/* useDocumentTitle 커스텀 훅을 사용하지 않고 페이지 별 title 지정 가능 */}
+      {/* 만약 title 태그를 사용하려면 html문서에서 title을 제거해야한다 */}
+      {/* <title>메모리스트 with Supabase | 리액트</title> */}
+      <section>
+        <h1 className="sr-only">메모 리스트 (with Supabase)</h1>
+        {loading && <Loading />}
+        {error && <div role="alert">{error.message}</div>}
+        {data && <MemoList items={data} />}
+      </section>
+    </>
   );
 }
 
