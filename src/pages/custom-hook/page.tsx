@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
 import Loading from '../memo-list/components/loading';
 import Pokemon from './components/pokemon';
+import { useFetchData } from '@/hooks/use-fecth';
 
 interface PokemonList {
   count: number;
@@ -18,52 +18,9 @@ function CustomHookPage() {
   // 포켓몬 집합 정보 가져오기
   // 'https://pokeapi.co/api/v2/pokemon?offset=3&limit=10'
 
-  // 로딩, 에러, 데이터 상태 선언
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<Error | null>(null);
-  const [data, setData] = useState<PokemonList | null>(null);
-
-  // 선언된 상태가 변경되면 화면 업데이트
-  // 데이터를 가져오려면 이펙트가 필요 (외부 시스템과 동기화)
-  useEffect(() => {
-    let ignore = false;
-
-    const fetchPokemonList = async () => {
-      setLoading(true);
-
-      try {
-        const response = await fetch(
-          'https://pokeapi.co/api/v2/pokemon?offset=3&limit=10'
-        );
-
-        if (!response.ok) {
-          throw new Error(
-            'Pokemon API를 사용해 포켓몬 리스트를 불러오는데 실패했습니다.'
-          );
-        }
-
-        const data = (await response.json()) as PokemonList;
-
-        if (!ignore) {
-          setLoading(false);
-          setError(null);
-          setData(data);
-        }
-      } catch (error) {
-        if (!ignore) {
-          setLoading(false);
-          setError(error as Error);
-          setData(null);
-        }
-      }
-    };
-
-    fetchPokemonList();
-
-    return () => {
-      ignore = true;
-    };
-  }, []);
+  const { loading, error, data } = useFetchData<PokemonList>(
+    'https://pokeapi.co/api/v2/pokemon?offset=3&limit=20'
+  );
 
   return (
     <>
@@ -80,7 +37,8 @@ function CustomHookPage() {
           <Loading size={48} label="포켓몬 리스트 데이터 로딩 중..." />
         )}
         {error && <div role="alert">{error.message}</div>}
-        {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
+        {/* {data && <pre>{JSON.stringify(data, null, 2)}</pre>} */}
+        {data && <output>{data.results.length}</output>}
 
         <hr className="my-10" />
 
