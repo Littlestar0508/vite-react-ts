@@ -1,6 +1,7 @@
 import Loading from '../memo-list/components/loading';
-import Pokemon from './components/pokemon';
+import PokemonWithUseFecthData from './components/pokemon-widthuse-fetch-data';
 import { useFetchData } from '@/hooks/use-fecth';
+import PokemonWithUseQuery from './components/pokemon-with-use-query.tsx';
 
 interface PokemonList {
   count: number;
@@ -45,7 +46,8 @@ function CustomHookPage() {
         <h3 className="text-xl font-medium mb-6">
           컴포넌트에서 데이터 요청/응답 후, 화면 업데이트
         </h3>
-        <Pokemon />
+        <PokemonWithUseFecthData />
+        <PokemonWithUseQuery />
       </section>
     </>
   );
