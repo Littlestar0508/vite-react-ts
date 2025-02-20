@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import Message from './message';
 
-export default function Counter() {
+interface CounterProps {
+  messageElement?: React.ReactElement;
+}
+
+export default function Counter({ messageElement }: CounterProps) {
   const [count, setCount] = useState(0);
   const increment = () => setCount((c) => c + 1);
 
-  const messageElement = <Message greeting="요소 최적화가 필요해요! 😳" />;
+  // const messageElement = <Message greeting="요소 최적화가 필요해요! 😳" />;
 
   return (
     <div>
@@ -16,8 +19,8 @@ export default function Counter() {
       >
         {count}
       </button>
-      {/* <Message greeting="요소 최적화가 필요해요! 😳" /> */}
       {messageElement}
+      {/* {messageElement} */}
     </div>
   );
 }
