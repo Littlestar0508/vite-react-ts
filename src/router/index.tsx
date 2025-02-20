@@ -1,3 +1,4 @@
+import UnderstandingContextPage from '@/pages/understanding-contxt/page';
 import MemoryComponentDataPage from '@/pages/memory-component-data/page';
 import AnimationWithMotionPage from '@/pages/animation-with-motion/page';
 import TicTacToeWithContext from '@/pages/tic-tac-toe-with-context/page';
@@ -22,6 +23,11 @@ import NotFound from '@/pages/not-found/page';
 // 내비게이션 리스트 데이터
 
 export const navList = [
+  {
+    path: 'understanding-context',
+    text: '컨텍스트 이해',
+    element: <UnderstandingContextPage />,
+  },
   {
     path: 'auto-headings-level',
     text: '제목 레벨 자동 구성 (with 컨텍스트)',
