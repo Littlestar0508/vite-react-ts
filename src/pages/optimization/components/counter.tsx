@@ -1,10 +1,11 @@
 import { useState } from 'react';
+import { memo } from 'react';
 
 interface CounterProps {
   messageElement?: React.ReactElement;
 }
 
-export default function Counter({ messageElement }: CounterProps) {
+function Counter({ messageElement }: CounterProps) {
   const [count, setCount] = useState(0);
   const increment = () => setCount((c) => c + 1);
 
@@ -20,7 +21,8 @@ export default function Counter({ messageElement }: CounterProps) {
         {count}
       </button>
       {messageElement}
-      {/* {messageElement} */}
     </div>
   );
 }
+
+export default memo(Counter);

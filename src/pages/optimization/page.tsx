@@ -1,9 +1,9 @@
-import Section from '@/components/section';
 import Heading from '@/components/heading';
-import Message from './components/message';
-import Counter from './components/counter';
-import { createContext, useMemo, useState } from 'react';
+import Section from '@/components/section';
 import Title from '@/components/title';
+import { createContext, useState } from 'react';
+import Counter from './components/counter';
+import Message from './components/message';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const ColorContext = createContext('#000');
@@ -14,14 +14,14 @@ export default function Optimization() {
   const [stars, setStars] = useState('⭐️');
   const handleAddStar = () => setStars((s) => s + '⭐️');
 
-  const cachedElement = useMemo(
-    () => (
-      <Counter
-        messageElement={<Message greeting="요소 최적화가 필요해요! 😳" />}
-      />
-    ),
-    []
-  );
+  // const cachedElement = useMemo(
+  //   () => (
+  //     <Counter
+  //       messageElement={<Message greeting="요소 최적화가 필요해요! 😳" />}
+  //     />
+  //   ),
+  //   []
+  // );
 
   return (
     <>
@@ -43,7 +43,9 @@ export default function Optimization() {
           {/* <Counter
             messageElement={<Message greeting="요소 최적화가 필요해요! 😳" />}
           /> */}
-          {cachedElement}
+          <Counter
+            messageElement={<Message greeting="요소 최적화가 필요해요! 😳" />}
+          />
         </ColorContext>
       </Section>
     </>
