@@ -1,4 +1,4 @@
-import { useContext, createElement } from 'react';
+import { useContext, createElement, memo } from 'react';
 
 import HeadingsLevelContext from '@/contexts/level';
 
@@ -18,4 +18,4 @@ function Heading(props: React.ComponentProps<'h1'>) {
   return createElement(`h${level}`, props);
 }
 
-export default Heading;
+export default memo(Heading);
