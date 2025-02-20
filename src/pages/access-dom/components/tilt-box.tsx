@@ -1,8 +1,17 @@
+import { useCountStore } from '@/stores/count';
 import { tm } from '@/utils/tw-merge';
 import React, { useEffect, useRef } from 'react';
 import VanillaTilt, { type TiltOptions } from 'vanilla-tilt';
 
 function TiltBox({ className, ...props }: React.ComponentProps<'div'>) {
+  // 구조분해 할당을 하게 되면 memoization이 되지 않아 성능적으로 저하된다
+  // 셀렉터 함수를 사용
+  // Getter(re-render)
+  const count = useCountStore((state) => state.count);
+
+  // Setter(re-render X)
+  // const increment = useCountStore((state) => state.increment);
+
   const boxRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -26,7 +35,9 @@ function TiltBox({ className, ...props }: React.ComponentProps<'div'>) {
         className
       )}
       {...props}
-    />
+    >
+      <span className="text-3xl font-black">{count}</span>
+    </div>
   );
 }
 
