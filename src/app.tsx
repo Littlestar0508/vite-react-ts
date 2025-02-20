@@ -1,14 +1,9 @@
-import { useState } from 'react';
 import { ErrorBoundary } from 'react-error-boundary';
-import { ThemeProvider, ThemeSetters, type ThemeMode } from './contexts/theme';
-import PrintError from './pages/auto-headings-level/components/error';
+import PrintError from './components/error';
 import Playground from './playground';
+import { ThemeProvider, ThemeSetters } from './contexts/theme';
 
 function App() {
-  const [themeMode, setThemeMode] = useState<ThemeMode>('light');
-
-  const themeContextValue = { mode: themeMode, setMode: setThemeMode };
-
   return (
     <ErrorBoundary FallbackComponent={PrintError}>
       <ThemeProvider>
