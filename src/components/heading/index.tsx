@@ -1,4 +1,5 @@
 import { useContext, createElement } from 'react';
+
 import HeadingsLevelContext from '@/contexts/level';
 
 function Heading(props: React.ComponentProps<'h1'>) {
