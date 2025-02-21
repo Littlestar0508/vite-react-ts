@@ -1,7 +1,7 @@
 import Section from '@/components/section';
 import Title from '@/components/title';
-import { Heading } from '@mynaui/icons-react';
 import Counter from './components/counter';
+import Heading from '@/components/heading';
 
 export default function AppStateManagement() {
   return (
