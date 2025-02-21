@@ -25,7 +25,9 @@ import AuthManagementPage from '@/pages/auth-management/page';
 // --------------------------------------------------------------------------
 // 내비게이션 리스트 데이터
 
+// Routes
 export const navList = [
+  // 객체:Route
   { path: 'auth', text: '사용자 관리', element: <AuthManagementPage /> },
   {
     path: 'app-state-management',
