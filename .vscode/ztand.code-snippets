@@ -1,0 +1,30 @@
+{
+  "zstand-middleware": {
+    "scope": "javascript,typescript,javascriptreact,typescriptreact",
+    "prefix": "zstand-middleware",
+    "description": "zustand 생성(with 미들웨어)",
+    "body": [
+      "import { create } from 'zustand';",
+      "import { combine, devtools, persist } from 'zustand/middleware';",
+      "",
+      "",
+      "export const use${1:상태변수}Store = create(",
+      "  persist(",
+      "    devtools(",
+      "      combine(",
+      "        {",
+      "          ${2:상태값}",
+      "        },",
+      "        (set) => ({",
+      "          ${3:action함수}",
+      "        })",
+      "      )",
+      "    ),",
+      "",
+      "    { name: `store/${1:상태변수}` }",
+      "  )",
+      ");",
+      ""
+    ]
+  }
+}

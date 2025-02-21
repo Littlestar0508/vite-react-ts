@@ -20,11 +20,13 @@ import SignUpForm from '@/pages/sign-up/page';
 import NotFound from '@/pages/not-found/page';
 import Optimization from '@/pages/optimization/page';
 import AppStateManagement from '@/pages/app-state-management/page';
+import AuthManagementPage from '@/pages/auth-management/page';
 
 // --------------------------------------------------------------------------
 // 내비게이션 리스트 데이터
 
 export const navList = [
+  { path: 'auth', text: '사용자 관리', element: <AuthManagementPage /> },
   {
     path: 'app-state-management',
     text: '앱 상태관리',
