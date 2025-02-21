@@ -19,16 +19,16 @@ import SignInForm from '@/pages/sign-in/page';
 import SignUpForm from '@/pages/sign-up/page';
 import NotFound from '@/pages/not-found/page';
 import Optimization from '@/pages/optimization/page';
-import ZustandManageStatePage from '@/pages/zustand-manage-state/page';
+import AppStateManagement from '@/pages/app-state-management/page';
 
 // --------------------------------------------------------------------------
 // 내비게이션 리스트 데이터
 
 export const navList = [
   {
-    path: 'state-management-zustand',
-    text: '상태관리(With Zustand)',
-    element: <ZustandManageStatePage />,
+    path: 'app-state-management',
+    text: '앱 상태관리',
+    element: <AppStateManagement />,
   },
   {
     path: 'react-optimization',

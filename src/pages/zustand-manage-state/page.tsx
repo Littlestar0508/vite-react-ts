@@ -1,6 +1,6 @@
 import Section from '@/components/section';
 import Heading from '@/components/heading';
-import { useCountStore } from '@/stores/count';
+import { useCountStore } from '@/stores/_count';
 
 export default function ZustandManageStatePage() {
   const increment = useCountStore((state) => state.increment);

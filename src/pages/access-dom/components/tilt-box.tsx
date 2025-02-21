@@ -1,4 +1,4 @@
-import { useCountStore } from '@/stores/count';
+import { useCountStore } from '@/stores/_count';
 import { tm } from '@/utils/tw-merge';
 import React, { useEffect, useRef } from 'react';
 import VanillaTilt, { type TiltOptions } from 'vanilla-tilt';
